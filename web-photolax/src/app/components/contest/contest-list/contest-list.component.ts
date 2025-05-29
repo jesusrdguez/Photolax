@@ -15,7 +15,7 @@ import { ToastrService } from 'ngx-toastr';
         <div class="contest-list-container">
             <div class="header">
                 <h1>Photography Contests</h1>
-                <button *ngIf="authService.getCurrentUser()?.role === 'ADMIN'"
+                <button *ngIf="authService.currentUserValue?.role === 'ADMIN'"
                         mat-raised-button 
                         color="primary"
                         routerLink="new">
@@ -39,13 +39,13 @@ import { ToastrService } from 'ngx-toastr';
                         <button mat-button color="primary" [routerLink]="[contest.contest_id]">
                             View Details
                         </button>
-                        <button *ngIf="authService.getCurrentUser()?.role === 'ADMIN'"
+                        <button *ngIf="authService.currentUserValue?.role === 'ADMIN'"
                                 mat-button 
                                 color="accent"
                                 [routerLink]="[contest.contest_id, 'edit']">
                             Edit
                         </button>
-                        <button *ngIf="authService.getCurrentUser()?.role === 'ADMIN'"
+                        <button *ngIf="authService.currentUserValue?.role === 'ADMIN'"
                                 mat-button 
                                 color="warn"
                                 (click)="deleteContest(contest.contest_id!)">

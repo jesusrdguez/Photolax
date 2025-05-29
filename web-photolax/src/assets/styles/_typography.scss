@@ -1,0 +1,80 @@
+// Typography Scale
+$font-sizes: (
+  'xs': 0.75rem,    // 12px
+  'sm': 0.875rem,   // 14px
+  'base': 1rem,     // 16px
+  'lg': 1.125rem,   // 18px
+  'xl': 1.25rem,    // 20px
+  '2xl': 1.5rem,    // 24px
+  '3xl': 1.875rem,  // 30px
+  '4xl': 2.25rem,   // 36px
+  '5xl': 3rem,      // 48px
+);
+
+// Font Weights
+$font-weights: (
+  'light': 300,
+  'regular': 400,
+  'medium': 500,
+  'semibold': 600,
+  'bold': 700
+);
+
+// Line Heights
+$line-heights: (
+  'tight': 1.25,
+  'normal': 1.5,
+  'relaxed': 1.75
+);
+
+// Utility Classes
+@each $name, $size in $font-sizes {
+  .text-#{$name} {
+    font-size: $size;
+  }
+}
+
+@each $name, $weight in $font-weights {
+  .font-#{$name} {
+    font-weight: $weight;
+  }
+}
+
+// Heading Styles
+h1, .h1 {
+  font-size: map-get($font-sizes, '4xl');
+  font-weight: map-get($font-weights, 'bold');
+  line-height: map-get($line-heights, 'tight');
+}
+
+h2, .h2 {
+  font-size: map-get($font-sizes, '3xl');
+  font-weight: map-get($font-weights, 'semibold');
+  line-height: map-get($line-heights, 'tight');
+}
+
+h3, .h3 {
+  font-size: map-get($font-sizes, '2xl');
+  font-weight: map-get($font-weights, 'semibold');
+}
+
+h4, .h4 {
+  font-size: map-get($font-sizes, 'xl');
+  font-weight: map-get($font-weights, 'medium');
+}
+
+// Body Text Styles
+.body-large {
+  font-size: map-get($font-sizes, 'lg');
+  line-height: map-get($line-heights, 'relaxed');
+}
+
+.body-default {
+  font-size: map-get($font-sizes, 'base');
+  line-height: map-get($line-heights, 'normal');
+}
+
+.body-small {
+  font-size: map-get($font-sizes, 'sm');
+  line-height: map-get($line-heights, 'normal');
+} 
