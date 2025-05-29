@@ -39,16 +39,8 @@ import { MaterialModule } from '../../shared/material.module';
 
             <!-- Contenido principal -->
             <div class="main-content">
-                <!-- Logo principal -->
-                <div class="logo-container">
-                    <h1 class="main-logo">PHOTOLAX</h1>
-                </div>
-
-                <!-- Texto descriptivo -->
-                <div class="tagline-container">
-                    <p class="tagline">Photography doesn't just capture a moment, it</p>
-                    <p class="tagline">forever holds the emotion that made it timeless</p>
-                </div>
+                <h1 class="main-logo">PHOTOLAX</h1>
+                <p class="tagline">Photography doesn't just capture a moment, it forever holds the emotion that made it timeless</p>
             </div>
         </div>
     `,
@@ -66,7 +58,6 @@ import { MaterialModule } from '../../shared/material.module';
             position: relative;
             color: white;
         }
-
         /* Header superior */
         .top-header {
             display: flex;
@@ -109,90 +100,57 @@ import { MaterialModule } from '../../shared/material.module';
             width: 100%;
         }
 
-        /* Logo principal */
-        /*.logo-container {
-            margin: 80px;
-            margin-left: 0px;
-            text-align: left;
-        }*/
-
         .main-logo {
             margin-left: 10px;
-            font-weight: lighter;
             margin-top: 0;
             transition: 1.4s cubic-bezier(0.8, 0, 0, 1);
             position: relative;
             z-index: 6;
+            letter-spacing: -5px;
             pointer-events: none;
-            padding-top: 12rem;
+            padding-top: 270px;
             font-family: Canopee, Helvetica, Arial, sans-serif;
-            font-size: 17.2vw;
+            font-size: 18vw;
             text-indent: -1vw;
             color: #DAD7CD;
             transform: translateX(0px);
         }
 
-        /* Texto descriptivo */
-        .tagline-container {
-            text-align: center;
-        }
-
         .tagline {
-            color: black;
-            font-size: 22px;
+            transition: clip-path 1.4s cubic-bezier(0.8, 0, 0, 1) 0.6s;
+            position: relative;
+            pointer-events: none;
+            z-index: 8;
+            display: block;
+            width: 100%;
+            color: rgb(11, 12, 10);
             font-weight: 300;
-            letter-spacing: 1.5px;
-            line-height: 1.6;
-        }
-
-        /* Botones CTA */
-        .cta-container {
-            display: flex;
-            gap: 25px;
-            justify-content: center;
-            margin-bottom: 80px;
-        }
-
-        .cta-button {
-            padding: 15px 45px;
-            font-size: 16px;
-            letter-spacing: 2px;
+            line-height: 100%; 
+            margin-top: 8rem;
+            margin-left: 20px;
             text-transform: uppercase;
-            border-radius: 0;
-            transition: all 0.3s ease;
-            min-width: 220px;
         }
 
-        .cta-button:not(.secondary) {
-            background-color: white;
-            color: black;
+        @media (min-width: 700px) {
+            .tagline {
+                transform: translateY(-4rem);
+                font-size: 3rem;
+            }
         }
 
-        .cta-button.secondary {
-            background-color: transparent;
-            color: white;
-            border: 1px solid white;
+        @media (min-width: 1024px) {
+            .tagline {
+                width: 90%;
+                transform: translateY(-6rem);
+                font-size: 4rem;
+            }
         }
 
-        .cta-button:hover:not(.secondary) {
-            background-color: #f0f0f0;
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-        }
-
-        .cta-button.secondary:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-            transform: translateY(-3px);
-        }
-
-        /* Footer */
-        .footer {
-            text-align: center;
-            padding: 30px 0;
-            font-size: 14px;
-            letter-spacing: 1px;
-            font-weight: 300;
-            margin-top: auto;
+        @media (min-width: 1400px) {
+            .tagline {
+                transform: translateY(-5rem);
+                font-size: 4rem;
+            }
         }
 
         /* Botón de menú */
@@ -284,12 +242,13 @@ import { MaterialModule } from '../../shared/material.module';
                 font-family: Canopee, Helvetica, Arial, sans-serif;
                 font-size: 17.2vw;
                 text-indent: -1vw;
-                color: rgb(22, 20, 10);
-                transform: translateX(0px);
+                color: #DAD7CD;
             }
-            
+
             .tagline {
-                font-size: 20px;
+                width: 80%;
+                transform: translateY(-7rem);
+                font-size: 3rem;
             }
         }
 
@@ -303,22 +262,14 @@ import { MaterialModule } from '../../shared/material.module';
                 font-family: Canopee, Helvetica, Arial, sans-serif;
                 font-size: 17.2vw;
                 text-indent: -1vw;
-                color: rgb(22, 20, 10);
+                color: #DAD7CD;
                 transform: translateX(0px);
             }
-            
+
             .tagline {
-                font-size: 18px;
-            }
-            
-            .cta-container {
-                flex-direction: column;
-                align-items: center;
-                gap: 15px;
-            }
-            
-            .header-links {
-                gap: 40px;
+                width: 80%;
+                transform: translateY(-7rem);
+                font-size: 3rem;
             }
         }
 
@@ -344,17 +295,14 @@ import { MaterialModule } from '../../shared/material.module';
                 font-family: Canopee, Helvetica, Arial, sans-serif;
                 font-size: 17.2vw;
                 text-indent: -1vw;
-                color: rgb(22, 20, 10);
+                color: #DAD7CD;
                 transform: translateX(0px);
             }
-            
+
             .tagline {
-                font-size: 16px;
-            }
-            
-            .cta-button {
-                min-width: 200px;
-                padding: 12px 30px;
+                width: 80%;
+                transform: translateY(-7rem);
+                font-size: 2.5rem;
             }
         }
 
@@ -366,21 +314,16 @@ import { MaterialModule } from '../../shared/material.module';
                 pointer-events: none;
                 padding-top: 12rem;
                 font-family: Canopee, Helvetica, Arial, sans-serif;
-                font-size: 17.2vw;
+                font-size: 19vw;
                 text-indent: -1vw;
-                color: rgb(22, 20, 10);
+                color: #DAD7CD;
                 transform: translateX(0px);
             }
-            
+
             .tagline {
-                font-size: 14px;
-                letter-spacing: 1px;
-            }
-            
-            .cta-button {
-                min-width: 180px;
-                padding: 10px 25px;
-                font-size: 14px;
+                width: 80%;
+                transform: translateY(-8.5rem);
+                font-size: 2rem;
             }
         }
     `]
