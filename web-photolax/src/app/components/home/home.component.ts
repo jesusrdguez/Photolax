@@ -263,7 +263,6 @@ import { MaterialModule } from '../../shared/material.module';
                 font-size: 17.2vw;
                 text-indent: -1vw;
                 color: #DAD7CD;
-                transform: translateX(0px);
             }
 
             .tagline {
