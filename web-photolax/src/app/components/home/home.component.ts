@@ -13,7 +13,6 @@ import { AuthService } from '../../services/auth.service';
     template: `
     <div class="noise-overlay">
         <div class="page-container">
-            <!-- Header superior -->
             <div class="top-header">
                 <div class="header-links">
                     <a routerLink="/" class="header-item">HOME</a>
@@ -25,12 +24,10 @@ import { AuthService } from '../../services/auth.service';
                 </div>
             </div>
 
-            <!-- Botón de menú móvil -->
             <button mat-icon-button class="menu-button" (click)="toggleMenu()">
                 <mat-icon>menu</mat-icon>
             </button>
 
-            <!-- Menú móvil desplegable -->
             <div class="mobile-menu" [class.show-menu]="isMenuOpen">
                 <div class="mobile-header">
                     <button mat-icon-button class="close-button" (click)="toggleMenu()">
