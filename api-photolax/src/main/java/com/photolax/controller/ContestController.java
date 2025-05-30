@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api-photolax/contests") // El prefijo /api-photolax/ ya no es necesario aquí si se configura globalmente o se prefiere así
+@RequestMapping("/contests")
 @RequiredArgsConstructor
 public class ContestController {
 

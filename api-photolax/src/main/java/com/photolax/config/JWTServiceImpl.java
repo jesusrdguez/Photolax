@@ -19,11 +19,10 @@ import java.util.function.Function;
 @Service
 public class JWTServiceImpl implements JWTService {
 
-    // TODO: Externalize these properties to application.properties
     @Value("${jwt.secret:your-very-long-and-secure-secret-key-replace-this-with-at-least-256-bits}")
     private String jwtSigningKey;
 
-    @Value("${jwt.expiration.ms:3600000}") // 1 hour by default
+    @Value("${jwt.expiration.ms:3600000}")
     private long jwtExpirationMs;
 
     @Override

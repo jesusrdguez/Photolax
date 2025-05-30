@@ -16,12 +16,12 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ContestDTO {
-    private Long id; // Para respuestas
+    private Long id;
 
     @NotBlank(message = "Title cannot be blank")
     private String title;
 
-    private LocalDateTime startDate; // Validar en servicio que startDate < endDate
+    private LocalDateTime startDate;
 
     private LocalDateTime endDate;
 

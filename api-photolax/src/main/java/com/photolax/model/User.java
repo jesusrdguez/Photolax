@@ -19,7 +19,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "users") // "user" es una palabra reservada en PostgreSQL
+@Table(name = "users")
 public class User implements UserDetails {
 
     @Id
@@ -46,15 +46,15 @@ public class User implements UserDetails {
     private LocalDateTime registrationDate;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 200) // Aumentado para "ROLE_USER" o "ROLE_ADMIN" si se prefiere ese formato
+    @Column(nullable = false, length = 200)
     private Role role;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    @Builder.Default // Para que Lombok Builder inicialice la lista
+    @Builder.Default
     private List<Photo> photos = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    @Builder.Default // Para que Lombok Builder inicialice la lista
+    @Builder.Default
     private List<Vote> votes = new ArrayList<>();
 
     @PrePersist
@@ -62,7 +62,6 @@ public class User implements UserDetails {
         this.registrationDate = LocalDateTime.now();
     }
 
-    // Implementación de UserDetails
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));
@@ -75,7 +74,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return username; // Usamos el campo username para UserDetails
+        return username;
     }
 
     @Override

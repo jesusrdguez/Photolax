@@ -14,7 +14,6 @@ public interface PhotoRepository extends JpaRepository<Photo, Long> {
     List<Photo> findByStatus(PhotoStatus status);
     List<Photo> findByUser_IdAndContest_Id(Long userId, Long contestId);
     List<Photo> findByContest_IdAndStatus(Long contestId, PhotoStatus status);
-    // Para el feed, podríamos necesitar ordenarlas por fecha de subida descendente
     List<Photo> findAllByOrderByUploadDateDesc(); 
-    List<Photo> findByStatusOrderByUploadDateDesc(PhotoStatus status); // Feed de fotos aprobadas por ejemplo
+    List<Photo> findByStatusOrderByUploadDateDesc(PhotoStatus status);
 } 

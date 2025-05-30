@@ -6,6 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ContestRepository extends JpaRepository<Contest, Long> {
-    // Aquí se podrían añadir métodos de consulta específicos para Contest si son necesarios más adelante
-    // Ejemplo: List<Contest> findByEndDateBefore(LocalDateTime date);
+
 } 

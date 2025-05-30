@@ -22,7 +22,7 @@ import java.io.IOException;
 public class JWTAuthenticationFilter extends OncePerRequestFilter {
 
     private final JWTService jwtService;
-    private final UserDetailsService userDetailsService; // Viene de ApplicationConfig
+    private final UserDetailsService userDetailsService;
 
     @Override
     protected void doFilterInternal(
@@ -47,7 +47,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
             if (jwtService.isTokenValid(jwt, userDetails)) {
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         userDetails,
-                        null, // No se necesitan credenciales para un token ya validado
+                        null,
                         userDetails.getAuthorities()
                 );
                 authToken.setDetails(

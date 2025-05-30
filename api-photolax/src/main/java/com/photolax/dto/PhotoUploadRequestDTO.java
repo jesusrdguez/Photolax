@@ -20,7 +20,4 @@ public class PhotoUploadRequestDTO {
 
     @NotNull(message = "Contest ID cannot be null")
     private Long contestId;
-
-    // El archivo en sí (MultipartFile) se manejará en el controlador, no es parte de este DTO de solicitud JSON.
-    // El servicio tomará el MultipartFile y este DTO.
 } 

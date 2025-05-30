@@ -23,9 +23,8 @@ import java.util.stream.Collectors;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder; // Para creación/actualización de contraseña por admin
+    private final PasswordEncoder passwordEncoder;
 
-    // Método para convertir User a UserResponseDTO (podría ir a un Mapper dedicado)
     private UserResponseDTO convertToUserResponseDTO(User user) {
         return UserResponseDTO.builder()
                 .id(user.getId())
@@ -62,10 +61,9 @@ public class UserService {
     @Transactional(readOnly = true)
     public User getUserByUsername(String username) {
         return userRepository.findByUsername(username)
-                .orElseThrow(() -> new UserNotFoundByEmailException(username)); // Podríamos crear UserNotFoundByUsernameException
+                .orElseThrow(() -> new UserNotFoundByEmailException(username));
     }
 
-    // Crear usuario (ej. por un Admin)
     @Transactional
     public UserResponseDTO createUser(UserDTO userDTO) {
         if (userRepository.findByUsername(userDTO.getUsername()).isPresent()) {
@@ -78,7 +76,7 @@ public class UserService {
         User user = User.builder()
                 .username(userDTO.getUsername())
                 .email(userDTO.getEmail())
-                .password(passwordEncoder.encode(userDTO.getPassword())) // Asumimos que UserDTO para creación incluye contraseña
+                .password(passwordEncoder.encode(userDTO.getPassword()))
                 .firstName(userDTO.getFirstName())
                 .lastName(userDTO.getLastName())
                 .role(userDTO.getRole() != null ? userDTO.getRole() : Role.USER)
@@ -87,13 +85,11 @@ public class UserService {
         return convertToUserResponseDTO(savedUser);
     }
 
-    // Actualizar usuario (ej. por un Admin o el propio usuario)
     @Transactional
     public UserResponseDTO updateUser(Long id, UserUpdateDTO userUpdateDTO) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundByIdException(id));
 
-        // Actualizar campos permitidos
         if (userUpdateDTO.getFirstName() != null) {
             user.setFirstName(userUpdateDTO.getFirstName());
         }
@@ -101,14 +97,11 @@ public class UserService {
             user.setLastName(userUpdateDTO.getLastName());
         }
         if (userUpdateDTO.getEmail() != null && !userUpdateDTO.getEmail().equals(user.getEmail())) {
-            // Validar si el nuevo email ya existe para otro usuario
             if(userRepository.findByEmail(userUpdateDTO.getEmail()).filter(existingUser -> !existingUser.getId().equals(id)).isPresent()){
                 throw new IllegalArgumentException("Email already in use: " + userUpdateDTO.getEmail());
             }
             user.setEmail(userUpdateDTO.getEmail());
         }
-        // No se permite cambiar username o rol directamente aquí, podría ser otra operación más privilegiada.
-        // El cambio de contraseña tendría su propio endpoint y lógica.
 
         User updatedUser = userRepository.save(user);
         return convertToUserResponseDTO(updatedUser);
@@ -122,7 +115,6 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-    // Método para obtener el usuario autenticado actualmente (útil en otros servicios)
     public User getCurrentAuthenticatedUser() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username;

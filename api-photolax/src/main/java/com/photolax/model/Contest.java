@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-// import java.util.List; // Descomentar si se añade la relación con Photo
 
 @Data
 @Builder
@@ -33,9 +32,5 @@ public class Contest {
 
     @Column(name = "max_participants")
     private Integer maxParticipants;
-
-    // Relación con Photo (un concurso tiene muchas fotos)
-    // @OneToMany(mappedBy = "contest", cascade = CascadeType.ALL, orphanRemoval = true)
-    // private List<Photo> photos;
 
 } 

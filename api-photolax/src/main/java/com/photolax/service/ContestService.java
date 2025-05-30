@@ -18,7 +18,6 @@ public class ContestService {
 
     private final ContestRepository contestRepository;
 
-    // Método para convertir Contest a ContestDTO
     private ContestDTO convertToContestDTO(Contest contest) {
         return ContestDTO.builder()
                 .id(contest.getId())
@@ -31,7 +30,6 @@ public class ContestService {
 
     @Transactional
     public ContestDTO createContest(ContestDTO contestDTO) {
-        // Validaciones adicionales si son necesarias (ej. startDate < endDate)
         if (contestDTO.getStartDate() != null && contestDTO.getEndDate() != null && 
             contestDTO.getStartDate().isAfter(contestDTO.getEndDate())) {
             throw new IllegalArgumentException("Start date must be before end date.");
@@ -61,7 +59,6 @@ public class ContestService {
                 .orElseThrow(() -> new ContestNotFoundException(id));
     }
     
-    // Obtener la entidad Contest, útil para otros servicios como PhotoService
     @Transactional(readOnly = true)
     public Contest getContestEntityById(Long id) {
         return contestRepository.findById(id)
@@ -73,12 +70,10 @@ public class ContestService {
         Contest contest = contestRepository.findById(id)
                 .orElseThrow(() -> new ContestNotFoundException(id));
 
-        // Validaciones adicionales
         if (putContestDTO.getStartDate() != null && putContestDTO.getEndDate() != null &&
             putContestDTO.getStartDate().isAfter(putContestDTO.getEndDate())) {
             throw new IllegalArgumentException("Start date must be before end date.");
         }
-        // Si una fecha está presente y la otra no, y la existente causa conflicto
         if (putContestDTO.getStartDate() != null && contest.getEndDate() != null && 
             putContestDTO.getStartDate().isAfter(contest.getEndDate())){
              throw new IllegalArgumentException("New start date cannot be after existing end date.");   
@@ -102,9 +97,6 @@ public class ContestService {
         if (!contestRepository.existsById(id)) {
             throw new ContestNotFoundException(id);
         }
-        // Considerar la lógica de borrado en cascada o si hay fotos asociadas
-        // Por ahora, un borrado simple. Si hay fotos, podría fallar por constraint violation
-        // o necesitaríamos borrar/desasociar fotos primero.
         contestRepository.deleteById(id);
     }
 } 

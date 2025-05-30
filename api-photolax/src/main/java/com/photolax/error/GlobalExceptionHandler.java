@@ -30,9 +30,6 @@ public class GlobalExceptionHandler {
                 .build();
     }
 
-    // Manejadores para nuestras excepciones personalizadas con @ResponseStatus
-    // Estas ya devuelven el status correcto, pero podemos personalizar el cuerpo.
-
     @ExceptionHandler({UserNotFoundByIdException.class, UserNotFoundByEmailException.class,
                      ContestNotFoundException.class, PhotoNotFoundException.class})
     public ResponseEntity<ErrorResponseDTO> handleNotFoundExceptions(RuntimeException ex, HttpServletRequest request) {
@@ -77,12 +74,9 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
-    // Un manejador genérico para cualquier otra excepción no capturada
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponseDTO> handleGlobalException(Exception ex, HttpServletRequest request) {
         ErrorResponseDTO errorResponse = buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred: " + ex.getMessage(), request.getRequestURI(), null);
-        // Es buena idea loguear la traza de la excepción aquí
-        // log.error("Unexpected error: ", ex);
         return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 } 

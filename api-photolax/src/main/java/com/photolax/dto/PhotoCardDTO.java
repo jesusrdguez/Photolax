@@ -15,11 +15,10 @@ import java.time.LocalDateTime;
 public class PhotoCardDTO {
     private Long id;
     private String title;
-    private UserResponseDTO user; // Información básica del usuario que subió la foto
+    private UserResponseDTO user;
     private Long contestId;
-    private String contestTitle; // Podría ser útil tener el título del concurso
+    private String contestTitle;
     private PhotoStatus status;
     private LocalDateTime uploadDate;
     private Integer voteCount;
-    // private String imageUrl; // Opcional: si tienes un endpoint para servir la imagen
 } 

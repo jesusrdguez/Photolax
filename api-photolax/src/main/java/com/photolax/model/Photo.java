@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-// import java.util.List; // Descomentar si se añade la relación con Vote
 
 @Data
 @Builder
@@ -25,9 +24,9 @@ public class Photo {
     @Column(nullable = false, length = 100)
     private String title;
 
-    @Lob // Para campos grandes como datos binarios de imagen
+    @Lob
     @Column(name = "file_data", nullable = false)
-    private byte[] fileData; // OID se mapea a byte[] para datos binarios grandes
+    private byte[] fileData;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -47,15 +46,11 @@ public class Photo {
     @Column(name = "vote_count", nullable = false)
     private Integer voteCount = 0;
 
-    // Relación con Vote (una foto puede tener muchos votos)
-    // @OneToMany(mappedBy = "photo", cascade = CascadeType.ALL, orphanRemoval = true)
-    // private List<Vote> votes;
-
     @PrePersist
     protected void onCreate() {
         this.uploadDate = LocalDateTime.now();
         if (this.status == null) {
-            this.status = PhotoStatus.PENDING; // Estado por defecto al crear
+            this.status = PhotoStatus.PENDING;
         }
     }
 } 

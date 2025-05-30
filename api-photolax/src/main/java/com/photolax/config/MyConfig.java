@@ -13,8 +13,8 @@ public class MyConfig {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**") // Aplica a todos los endpoints
-                        .allowedOrigins("http://localhost:4200", "http://localhost:8080") // Origen de tu frontend Angular y la propia API (si haces llamadas desde swagger)
+                registry.addMapping("/**")
+                        .allowedOrigins("http://localhost:4200", "http://localhost:8080")
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
                         .allowCredentials(true);

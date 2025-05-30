@@ -18,5 +18,5 @@ public class ErrorResponseDTO {
     private String error;
     private String message;
     private String path;
-    private List<String> details; // Para errores de validación
+    private List<String> details;
 } 

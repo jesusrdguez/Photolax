@@ -26,10 +26,10 @@ public class PhotoController {
     private final PhotoService photoService;
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    @PreAuthorize("isAuthenticated()") // Solo usuarios autenticados pueden subir fotos
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<PhotoCardDTO> uploadPhoto(
-            @Valid @RequestPart("photoDetails") PhotoUploadRequestDTO requestDTO, // Los detalles JSON
-            @RequestPart("file") MultipartFile file // El archivo
+            @Valid @RequestPart("photoDetails") PhotoUploadRequestDTO requestDTO,
+            @RequestPart("file") MultipartFile file
     ) {
         PhotoCardDTO uploadedPhoto = photoService.uploadPhoto(requestDTO, file);
         return new ResponseEntity<>(uploadedPhoto, HttpStatus.CREATED);
@@ -91,9 +91,6 @@ public class PhotoController {
     }
 
     @DeleteMapping("/{photoId}")
-    // La lógica de quién puede borrar (dueño o ADMIN) está en el servicio.
-    // Aquí solo nos aseguramos de que esté autenticado.
-    // Si quisiéramos ser más explícitos aquí, necesitaríamos cargar la foto para verificar el dueño.
     @PreAuthorize("isAuthenticated()") 
     public ResponseEntity<Void> deletePhoto(@PathVariable Long photoId) {
         photoService.deletePhoto(photoId);
