@@ -47,7 +47,6 @@ public class UserController {
         return ResponseEntity.ok(updatedUser);
     }
 
-    // DELETE /users/{id}
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('ADMIN') or (hasAuthority('USER') and #id == principal.id)")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {

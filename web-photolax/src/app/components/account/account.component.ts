@@ -31,15 +31,14 @@ import { ConfirmDialogComponent } from '../shared/confirm-dialog/confirm-dialog.
                 </div>
             </div>
 
-      
+            <h1 class="accountTitle">ACCOUNT</h1>
+            <div class="line"></div>    
             <div class="account-box">
-                <h2 id="accountWord">Account</h2>
-                
+            
                 <form [formGroup]="accountForm">
                     <mat-form-field appearance="fill">
                         <mat-label>Username</mat-label>
                         <input matInput formControlName="username" readonly>
-                        <mat-hint>Username cannot be changed</mat-hint>
                     </mat-form-field>
 
                     <mat-form-field appearance="fill">
@@ -121,8 +120,7 @@ import { ConfirmDialogComponent } from '../shared/confirm-dialog/confirm-dialog.
 
         .page-container {
             display: flex;
-            flex-direction: column;
-            
+            flex-direction: column;            
             min-height: 100vh;
             background-color: #1A1D1B;
             background-size: cover;
@@ -173,24 +171,23 @@ import { ConfirmDialogComponent } from '../shared/confirm-dialog/confirm-dialog.
             width: 100%;
         }
 
-        #accountWord {
-            margin: 0;
-            font-size: 15vw;
+        .accountTitle {
+            margin-left: 20px;
+        }
+
+        .line {
+            border-bottom: 2px solid #DAD7CD;
+            width: 90%;
+            margin-left: 20px;
         }
 
         .account-box {
-            background: rgba(0, 0, 0, 0);
+            background: #1A1D1B;
             padding: 40px;
             border-radius: 8px;
             width: 100%;
             max-width: 500px;
             margin: 0 auto;
-        }
-
-        h2 {
-            text-align: center;
-            margin-bottom: 30px;
-            color: white;
         }
 
         form {

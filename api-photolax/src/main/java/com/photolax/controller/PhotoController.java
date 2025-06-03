@@ -82,7 +82,7 @@ public class PhotoController {
     }
 
     @PutMapping("/{photoId}/status")
-    @PreAuthorize("hasAuthority('ADMIN')") // Solo ADMIN puede cambiar el estado
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<PhotoCardDTO> updatePhotoStatus(
             @PathVariable Long photoId, 
             @Valid @RequestBody UpdatePhotoStatusRequestDTO requestDTO

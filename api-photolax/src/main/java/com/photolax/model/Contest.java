@@ -21,7 +21,7 @@ public class Contest {
     @Column(name = "contest_id")
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String title;
 
     @Column(name = "start_date")

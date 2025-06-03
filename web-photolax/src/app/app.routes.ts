@@ -6,6 +6,7 @@ import { RulesComponent } from './components/rules/rules.component';
 import { RalliesComponent } from './components/rallies/rallies.component';
 import { HomeComponent } from './components/home/home.component';
 import { AccountComponent } from './components/account/account.component';
+import { PhotoUploadComponent } from './components/photo-upload/photo-upload.component';
 import { AuthGuard } from './guards/auth.guard';
 import { NoAuthGuard } from './guards/no-auth.guard';
 
@@ -31,6 +32,11 @@ export const routes: Routes = [
     { 
         path: 'account', 
         component: AccountComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path: 'contests/:title/participate',
+        component: PhotoUploadComponent,
         canActivate: [AuthGuard]
     },
     // Ruta wildcard para manejar rutas no encontradas

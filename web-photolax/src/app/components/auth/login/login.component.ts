@@ -54,15 +54,18 @@ import { ToastrService } from 'ngx-toastr';
                                     Password is required
                                 </div>
                             </div>
-
-                            <!-- Botón de login -->
-                            <div style="display: flex; justify-content: center;">
+                           <div style="display: flex; justify-content: center;">
                                 <button mat-raised-button class="login-button" type="submit" [disabled]="loginForm.invalid">
+                                    <p>
                                     Login
+                                    </p>
                                 </button>
                             </div>
                         </form>
                     </mat-card-content>
+                        <div class="registerLink" style="display: flex; justify-content: center">
+                            <a class="link" routerLink="/register">Need an account?</a>
+                        </div>
                 </mat-card>
             </div>
         </div>
@@ -109,7 +112,6 @@ import { ToastrService } from 'ngx-toastr';
             position: relative;
         }
 
-        /* Encabezado superior */
         .top-header {
             display: flex;
             justify-content: center;
@@ -146,7 +148,6 @@ import { ToastrService } from 'ngx-toastr';
             width: 100%;
         }
 
-        /* Nuevo estilo para el login-box */
         .login-box {
             position: absolute;
             top: 50%;
@@ -164,53 +165,22 @@ import { ToastrService } from 'ngx-toastr';
             padding: 0;
         }
 
-        /* Estilos para inputs transparentes */
-        ::ng-deep .mat-form-field-appearance-fill .mat-form-field-flex {
-            background-color: transparent !important;
-        }
-
-        ::ng-deep .mat-form-field-appearance-fill .mat-form-field-flex:hover {
-            background-color: transparent !important;
-        }
-
-        ::ng-deep .mat-form-field-underline {
-            display: none !important;
-        }
-
-        ::ng-deep .mat-form-field.mat-focused .mat-form-field-flex {
-            background-color: transparent !important;
-        }
-
-        ::ng-deep .mat-form-field-infix {
-            border-top: none;
-            padding: 0;
-        }
-
         .user-box mat-label {
             top: 0;
             left: 0;
             padding: 10px 0;
-            font-size: 16px;
+            font-size: 1vw;
             color: black;
             pointer-events: none;
             width: max-content;
             transition: 0.5s;
         }
 
-        .user-box .mat-focused mat-label,
-        .user-box .mat-form-field.mat-form-field-should-float mat-label {
-            top: -20px;
-            left: 0;
-            color: rgb(0, 0, 0);
-            font-size: 12px;
-        }
-
-        /* Botón de login con nuevo estilo */
         .login-button {
             align-self: center;
             width: 20%;
+            color: white;
             padding: 10px 20px;
-            color: rgb(255, 255, 255);
             font-size: 18px;
             overflow: hidden;
             transition: .5s;
@@ -222,12 +192,6 @@ import { ToastrService } from 'ngx-toastr';
             box-shadow: none !important;
         }
 
-        .login-button:disabled {
-            background: #555 !important;
-            color: #999 !important;
-            box-shadow: none !important;
-        }
-
         .error-message {
             color: #e91e63;
             font-size: 12px;
@@ -235,7 +199,15 @@ import { ToastrService } from 'ngx-toastr';
             margin-bottom: 15px;
         }
 
-        /* Responsividad */
+        .registerLink {
+            margin-top: 3em;
+        }
+
+        .link {
+            text-decoration: none;
+            color: black;
+        }
+
         @media (max-width: 600px) {
             .top-header {
                 padding: 20px 0;

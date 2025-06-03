@@ -1,6 +1,7 @@
 import { User } from './user.model';
 
 export interface Contest {
+    id?: number;
     contest_id?: number;
     title: string;
     start_date: Date;

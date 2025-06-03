@@ -1,30 +1,96 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { ContestService } from '../../services/contest.service';
+import { PhotoService } from '../../services/photo.service';
 import { AuthService } from '../../services/auth.service';
+import { Contest } from '../../models/contest.model';
+import { PhotoUploadRequest } from '../../models/photo.model';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-rallies',
+  selector: 'app-photo-upload',
   standalone: true,
-  imports: [
-    CommonModule,
-    RouterModule
-  ],
+  imports: [CommonModule, FormsModule, RouterModule],
   template: `
     <div class="noise-overlay">
-      <div class="rallies-container">
-      <div class="top-header">
-                <div class="header-links">
-                    <a routerLink="/" class="header-item">HOME</a>
-                    <a routerLink="/rules" class="header-item text-lg font-medium">RULES</a>
-                    <a routerLink="/rallies" class="header-item text-lg font-medium">RALLIES</a>
-                    <a [routerLink]="authService.isLoggedIn() ? '/account' : '/login'" class="header-item text-lg font-medium">
-                        {{ authService.isLoggedIn() ? 'ACCOUNT' : 'LOGIN' }}
-                    </a>
-                </div>
-            </div>
-        <h1 class="ralliesTitle">RALLIES</h1>
+      <div class="page-container">
+        <div class="top-header">
+          <div class="header-links">
+            <a routerLink="/" class="header-item">HOME</a>
+            <a routerLink="/rules" class="header-item text-lg font-medium"
+              >RULES</a
+            >
+            <a routerLink="/rallies" class="header-item text-lg font-medium"
+              >RALLIES</a
+            >
+            <a
+              [routerLink]="authService.isLoggedIn() ? '/account' : '/login'"
+              class="header-item text-lg font-medium"
+            >
+              {{ authService.isLoggedIn() ? 'ACCOUNT' : 'LOGIN' }}
+            </a>
+          </div>
+        </div>
+        <h1 class="uploadPhotoTitle">PARTICIPATE</h1>
         <div class="line"></div>
+        <div class="upload-container">
+          <div class="form-group">
+            <input
+              type="text"
+              [(ngModel)]="photoTitle"
+              placeholder="Enter photo title"
+              class="title-input"
+              required
+            />
+          </div>
+
+          <div
+            class="drop-zone"
+            (dragover)="onDragOver($event)"
+            (dragleave)="onDragLeave($event)"
+            (drop)="onDrop($event)"
+            [class.active]="isDragging"
+            [class.has-file]="selectedFile"
+          >
+            <div class="drop-message" *ngIf="!selectedFile">
+              <p>Drag and drop your photo here</p>
+              <p>or</p>
+              <button class="select-button" (click)="fileInput.click()">
+                Select File
+              </button>
+              <p class="file-types">Accepted formats: JPG, PNG, WEBP</p>
+            </div>
+            <input
+              #fileInput
+              type="file"
+              (change)="onFileSelected($event)"
+              accept="image/*"
+              style="display: none"
+            />
+
+            <div *ngIf="selectedFile" class="preview">
+              <img [src]="previewUrl" alt="Preview" />
+              <p>{{ selectedFile.name }}</p>
+              <button class="remove-button" (click)="removeFile()">
+                Remove
+              </button>
+            </div>
+          </div>
+
+          <div *ngIf="errorMessage" class="error-message">
+            {{ errorMessage }}
+          </div>
+
+          <button
+            (click)="uploadPhoto()"
+            [disabled]="!canUpload"
+            class="upload-button"
+          >
+            UPLOAD
+          </button>
+        </div>
       </div>
     </div>
   `,
@@ -68,48 +134,46 @@ import { AuthService } from '../../services/auth.service';
           transform: translate(0, 0);
         }
       }
+      .top-header {
+        display: flex;
+        justify-content: center;
+        padding: 60px 0;
+      }
 
-        .top-header {
-            display: flex;
-            justify-content: center;
-            padding: 60px 0;
-        }
+      .header-links {
+        display: flex;
+        gap: 70px;
+      }
 
-        .header-links {
-            display: flex;
-            gap: 70px;
-        }
+      .header-item {
+        font-size: 1rem;
+        text-transform: uppercase;
+        color: #dad7cd;
+        text-decoration: none;
+        position: relative;
+        padding-bottom: 5px;
+        transition: all 0.3s ease;
+      }
 
-        .header-item {
-            font-size: 1rem;
-            text-transform: uppercase;
-            color: #DAD7CD;
-            text-decoration: none;
-            position: relative;
-            padding-bottom: 5px;
-            transition: all 0.3s ease;
-        }
+      .header-item:hover {
+        color: rgb(255, 255, 255);
+      }
 
-        .header-item:hover {
-            color:rgb(255, 255, 255);
-        }
+      .header-item::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 1.4px;
+        background-color: white;
+        transition: width 0.3s ease;
+      }
 
-        .header-item::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 1.4px;
-            background-color: white;
-            transition: width 0.3s ease;
-        }
-
-        .header-item:hover::after {
-            width: 100%;
-        }
-
-      .rallies-container {
+      .header-item:hover::after {
+        width: 100%;
+      }
+      .page-container {
         display: flex;
         flex-direction: column;
         min-height: 100vh;
@@ -121,19 +185,314 @@ import { AuthService } from '../../services/auth.service';
         color: white;
         max-height: 100vh;
       }
+      .upload-container {
+        color: white;
+        max-width: 600px;
+        margin: 2rem auto;
+        padding: 2rem;
+        background: #1a1d1b;
+        border-radius: 8px;
+      }
 
-      .ralliesTitle {
+      .uploadPhotoTitle {
         margin-left: 20px;
       }
 
       .line {
-        border-bottom: 2px solid #DAD7CD;
+        border-bottom: 2px solid #dad7cd;
         width: 90%;
         margin-left: 20px;
+      }
+
+      .title-input {
+        width: 20em;
+        padding: 0.8rem;
+        margin-bottom: 1.5rem;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 1rem;
+      }
+
+      .drop-zone {
+        width: 20em;
+        color: #dad7cd;
+        border: 2px dashed #ccc;
+        border-radius: 8px;
+        padding: 2rem;
+        text-align: center;
+        transition: all 0.3s ease;
+        background: #1a1d1b;
+        min-height: 200px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1.5rem;
+      }
+
+      .drop-zone.active {
+        border-color: #2196f3;
+        background: #e3f2fd;
+      }
+
+      .drop-zone.has-file {
+        border-style: solid;
+        background: #fff;
+      }
+
+      .drop-message {
+        color: #666;
+      }
+
+      .file-types {
+        font-size: 0.8rem;
+        color: #999;
+        margin-top: 1rem;
+      }
+
+      .select-button {
+        background: #2196f3;
+        color: white;
+        border: none;
+        padding: 0.8rem 1.5rem;
+        border-radius: 4px;
+        cursor: pointer;
+        margin: 1rem 0;
+        transition: background 0.3s ease;
+      }
+
+      .select-button:hover {
+        background: #1976d2;
+      }
+
+      .preview {
+        width: 100%;
+      }
+
+      .preview img {
+        max-width: 100%;
+        max-height: 300px;
+        object-fit: contain;
+        margin-bottom: 1rem;
+      }
+
+      .remove-button {
+        background: #f44336;
+        color: white;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background 0.3s ease;
+      }
+
+      .remove-button:hover {
+        background: #d32f2f;
+      }
+
+      .error-message {
+        color: #f44336;
+        margin: 1rem 0;
+        padding: 0.8rem;
+        background: #ffebee;
+        border-radius: 4px;
+      }
+
+      .upload-button {
+        width: 100%;
+        background: transparent !important;
+        color: white;
+        border: none;
+        padding: 1rem;
+        border-radius: 4px;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: background 0.3s ease;
+      }
+
+      .upload-button:disabled {
+        cursor: not-allowed;
       }
     `,
   ],
 })
-export class RalliesComponent {
-    constructor(public authService: AuthService) {}
+export class PhotoUploadComponent implements OnInit {
+  contestTitle: string = '';
+  contest?: Contest;
+  photoTitle: string = '';
+  selectedFile: File | null = null;
+  previewUrl: string | null = null;
+  isDragging = false;
+  errorMessage: string = '';
+  isUploading = false;
+
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private contestService: ContestService,
+    private photoService: PhotoService,
+    public authService: AuthService,
+    private toastr: ToastrService
+  ) {}
+
+  ngOnInit() {
+    this.contestTitle = this.route.snapshot.params['title'];
+    this.loadContest();
+  }
+
+  private loadContest() {
+    this.contestService.getContestByTitle(this.contestTitle).subscribe({
+      next: (contest) => {
+        console.log('Contest loaded:', contest);
+        this.contest = contest;
+        this.checkUserParticipation();
+      },
+      error: (error) => {
+        this.toastr.error('Contest not found');
+        this.router.navigate(['/contests']);
+      },
+    });
+  }
+
+  private checkUserParticipation() {
+    if (!this.contest) return;
+
+    this.photoService.getPhotos(this.contest.contest_id).subscribe({
+      next: (photos) => {
+        const userHasSubmitted = photos.some(
+          (photo) =>
+            photo.userFullName ===
+            `${this.authService.currentUserValue?.firstName} ${this.authService.currentUserValue?.lastName}`
+        );
+        if (userHasSubmitted) {
+          this.toastr.error(
+            'You have already submitted a photo to this contest'
+          );
+          this.router.navigate(['/contests', this.contest?.contest_id]);
+        }
+      },
+    });
+  }
+
+  get canUpload(): boolean {
+    return (
+      !this.isUploading &&
+      !!this.selectedFile &&
+      !!this.photoTitle.trim() &&
+      !this.errorMessage
+    );
+  }
+
+  onDragOver(event: DragEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.isDragging = true;
+  }
+
+  onDragLeave(event: DragEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.isDragging = false;
+  }
+
+  onDrop(event: DragEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.isDragging = false;
+
+    const files = event.dataTransfer?.files;
+    if (files && files.length > 0) {
+      this.handleFile(files[0]);
+    }
+  }
+
+  onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.handleFile(input.files[0]);
+    }
+  }
+
+  private async handleFile(file: File) {
+    if (!file.type.match(/^image\/(jpeg|png|webp)$/)) {
+      this.errorMessage = 'Only JPG, PNG and GIF files are allowed';
+      return;
+    }
+
+    try {
+      const dimensions = await this.getImageDimensions(file);
+      if (dimensions.width > 2048 || dimensions.height > 2048) {
+        this.errorMessage = 'Image dimensions cannot exceed 2048x2048 pixels';
+        return;
+      }
+    } catch (error) {
+      this.errorMessage = 'Error validating image dimensions';
+      return;
+    }
+
+    this.selectedFile = file;
+    this.errorMessage = '';
+    this.createPreview();
+  }
+
+  private getImageDimensions(
+    file: File
+  ): Promise<{ width: number; height: number }> {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => {
+        resolve({ width: img.width, height: img.height });
+      };
+      img.onerror = () => {
+        reject(new Error('Failed to load image'));
+      };
+      img.src = URL.createObjectURL(file);
+    });
+  }
+
+  private createPreview() {
+    if (this.selectedFile) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.previewUrl = reader.result as string;
+      };
+      reader.readAsDataURL(this.selectedFile);
+    }
+  }
+
+  removeFile() {
+    this.selectedFile = null;
+    this.previewUrl = null;
+    this.errorMessage = '';
+  }
+
+  uploadPhoto() {
+    console.log('contest: ', this.contest);
+
+    if (!this.selectedFile || !this.contest || !this.photoTitle.trim()) {
+      return;
+    }
+
+    if (!this.contest.contest_id) {
+      this.toastr.error('Contest ID not found');
+      return;
+    }
+
+    this.isUploading = true;
+    const uploadRequest: PhotoUploadRequest = {
+      title: this.photoTitle.trim(),
+      file: this.selectedFile,
+      contest_id: this.contest.contest_id,
+    };
+
+    this.photoService.uploadPhoto(uploadRequest).subscribe({
+      next: () => {
+        this.toastr.success('Photo uploaded successfully');
+        this.router.navigate(['', this.contest?.contest_id]);
+      },
+      error: (error) => {
+        this.isUploading = false;
+        this.toastr.error(error.error?.message || 'Error uploading photo');
+      },
+    });
+  }
 }

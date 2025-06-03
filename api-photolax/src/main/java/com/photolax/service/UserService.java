@@ -1,8 +1,8 @@
 package com.photolax.service;
 
-import com.photolax.dto.UserDTO; // Para creación/actualización por admin
+import com.photolax.dto.UserDTO;
 import com.photolax.dto.UserResponseDTO;
-import com.photolax.dto.UserUpdateDTO; // Para actualización de perfil por el propio usuario
+import com.photolax.dto.UserUpdateDTO;
 import com.photolax.model.User;
 import com.photolax.model.Role;
 import com.photolax.repository.UserRepository;
@@ -124,6 +124,6 @@ public class UserService {
             username = principal.toString();
         }
         return userRepository.findByUsername(username)
-                .orElseThrow(() -> new UserNotFoundByEmailException("Authenticated user not found: " + username)); // O UserNotFoundByUsername
+                .orElseThrow(() -> new UserNotFoundByEmailException("Authenticated user not found: " + username));
     }
 } 
