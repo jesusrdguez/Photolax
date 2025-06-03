@@ -195,7 +195,8 @@ import { ToastrService } from 'ngx-toastr';
       }
 
       .uploadPhotoTitle {
-        margin-left: 20px;
+        margin: 3px 0 2px 20px;
+        font-size: 5vw;
       }
 
       .line {

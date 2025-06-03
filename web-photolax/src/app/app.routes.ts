@@ -1,7 +1,6 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './components/auth/login/login.component';
 import { RegisterComponent } from './components/auth/register/register.component';
-import { ContestListComponent } from './components/contest/contest-list/contest-list.component';
 import { RulesComponent } from './components/rules/rules.component';
 import { RalliesComponent } from './components/rallies/rallies.component';
 import { HomeComponent } from './components/home/home.component';
@@ -25,11 +24,6 @@ export const routes: Routes = [
     { path: 'rules', component: RulesComponent },
     { path: 'rallies', component: RalliesComponent },
     { 
-        path: 'contests',
-        component: ContestListComponent,
-        canActivate: [AuthGuard]
-    },
-    { 
         path: 'account', 
         component: AccountComponent,
         canActivate: [AuthGuard]
@@ -39,6 +33,6 @@ export const routes: Routes = [
         component: PhotoUploadComponent,
         canActivate: [AuthGuard]
     },
-    // Ruta wildcard para manejar rutas no encontradas
+
     { path: '**', redirectTo: '' }
 ];

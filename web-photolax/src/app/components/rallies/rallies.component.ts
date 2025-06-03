@@ -25,6 +25,22 @@ import { AuthService } from '../../services/auth.service';
             </div>
         <h1 class="ralliesTitle">RALLIES</h1>
         <div class="line"></div>
+        <div class="rallies-content">
+          <div class="rallies-content-item">
+            <a routerLink="/contests/sunsets-rises"></a>
+            <img src="assets/park-sunset.webp">
+            <p>SUNSETS-RISES</p>
+          </div>
+              <div class="rallies-content-item notAvailable">
+            <a routerLink="/contests/sunsets-rises"></a>
+            <img src="assets/flor-spring.webp">
+            <p>SPRING FLOWERS</p>
+          </div>
+          <div class="rallies-content-item notAvailable">
+            <a routerLink="/contests/sunsets-rises"></a>
+            <img src="assets/japanase-streetfood.webp">
+            <p>JAPANASE STREET FOOD</p>
+          </div>
       </div>
     </div>
   `,
@@ -106,13 +122,12 @@ import { AuthService } from '../../services/auth.service';
         }
 
         .header-item:hover::after {
-            width: 100%;
+          width: 100%;
         }
 
       .rallies-container {
         display: flex;
         flex-direction: column;
-        min-height: 100vh;
         background-color: #1a1d1b;
         background-size: cover;
         background-position: center;
@@ -120,10 +135,12 @@ import { AuthService } from '../../services/auth.service';
         position: relative;
         color: white;
         max-height: 100vh;
+        min-height: 100vh;
       }
 
       .ralliesTitle {
-        margin-left: 20px;
+          margin: 3px 0 2px 20px;
+          font-size: 5vw;
       }
 
       .line {
@@ -131,9 +148,88 @@ import { AuthService } from '../../services/auth.service';
         width: 90%;
         margin-left: 20px;
       }
+
+      .rallies-content {
+        display: flex;
+        align-items: center;
+        padding: 50px 20px;
+        gap: 80px;
+        width: 100%;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+      }
+
+      .rallies-content::-webkit-scrollbar {
+        display: none;
+      }
+
+      .rallies-content-item {
+        width: 500px;
+        height: 550px;
+        position: relative;
+        overflow: hidden;
+        flex: 0 0 auto;
+        scroll-snap-align: start;
+      }
+
+      .rallies-content-item::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 50%);
+        pointer-events: none;
+      }
+
+      .rallies-content-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .rallies-content-item p {
+        position: absolute;
+        margin-bottom: 0;
+        bottom: 0px;
+        font-weight: bold;
+        left: 0px;
+        color: #DAD7CD;
+        font-size: 4rem;
+        z-index: 2;
+      }
+
+      .rallies-content-item a {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 3;
+        cursor: pointer;
+      }
+
+      .notAvailable {
+        pointer-events: none;
+      }
+
+      @media (max-width: 600px) {
+        .ralliesTitle {
+          font-size: 3rem;
+        }
+        
+        .rallies-content {
+          padding: 50px 10px;
+          gap: 40px;
+        }
+      }
     `,
   ],
 })
 export class RalliesComponent {
-    constructor(public authService: AuthService) {}
+  constructor(public authService: AuthService) { }
 }

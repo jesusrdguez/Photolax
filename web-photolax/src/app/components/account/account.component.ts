@@ -172,7 +172,8 @@ import { ConfirmDialogComponent } from '../shared/confirm-dialog/confirm-dialog.
         }
 
         .accountTitle {
-            margin-left: 20px;
+            margin: 3px 0 2px 20px;
+            font-size: 5vw;
         }
 
         .line {
