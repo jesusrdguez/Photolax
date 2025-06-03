@@ -8,7 +8,6 @@ import { CommonModule } from '@angular/common';
     template: `
         <div class="rules-container">
             <h1>Contest Rules</h1>
-            <!-- Aquí irá el contenido de las reglas -->
         </div>
     `,
     styles: [`

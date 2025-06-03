@@ -11,4 +11,5 @@ public interface VoteRepository extends JpaRepository<Vote, Long> {
     Optional<Vote> findByUser_IdAndPhoto_Id(Long userId, Long photoId);
     long countByPhoto_Id(Long photoId);
     long countByUser_IdAndPhoto_Contest_Id(Long userId, Long contestId);
+    void deleteByPhoto_Id(Long photoId);
 } 

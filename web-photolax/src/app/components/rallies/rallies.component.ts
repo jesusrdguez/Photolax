@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
@@ -25,7 +25,7 @@ import { AuthService } from '../../services/auth.service';
             </div>
         <h1 class="ralliesTitle">RALLIES</h1>
         <div class="line"></div>
-        <div class="rallies-content">
+        <div class="rallies-content" #ralliesContent>
           <div class="rallies-content-item">
             <a routerLink="/contests/sunsets-rises"></a>
             <img src="assets/park-sunset.webp">
@@ -140,7 +140,7 @@ import { AuthService } from '../../services/auth.service';
 
       .ralliesTitle {
           margin: 3px 0 2px 20px;
-          font-size: 5vw;
+          font-size: 4vw;
       }
 
       .line {
@@ -152,7 +152,7 @@ import { AuthService } from '../../services/auth.service';
       .rallies-content {
         display: flex;
         align-items: center;
-        padding: 50px 20px;
+        margin-left: 20px;
         gap: 80px;
         width: 100%;
         overflow-x: auto;
@@ -168,7 +168,8 @@ import { AuthService } from '../../services/auth.service';
 
       .rallies-content-item {
         width: 500px;
-        height: 550px;
+        margin-top: 20px;
+        height: 65vh;
         position: relative;
         overflow: hidden;
         flex: 0 0 auto;
@@ -218,10 +219,6 @@ import { AuthService } from '../../services/auth.service';
       }
 
       @media (max-width: 600px) {
-        .ralliesTitle {
-          font-size: 3rem;
-        }
-        
         .rallies-content {
           padding: 50px 10px;
           gap: 40px;
@@ -230,6 +227,41 @@ import { AuthService } from '../../services/auth.service';
     `,
   ],
 })
-export class RalliesComponent {
-  constructor(public authService: AuthService) { }
+export class RalliesComponent implements AfterViewInit {
+  @ViewChild('ralliesContent', { static: true }) ralliesContent!: ElementRef;
+
+  private isDown = false;
+  private startX = 0;
+  private scrollLeft = 0;
+
+  ngAfterViewInit(): void {
+    const el = this.ralliesContent.nativeElement as HTMLElement;
+
+    el.addEventListener('mousedown', (e) => {
+      this.isDown = true;
+      el.classList.add('active');
+      this.startX = e.pageX - el.offsetLeft;
+      this.scrollLeft = el.scrollLeft;
+    });
+
+    el.addEventListener('mouseleave', () => {
+      this.isDown = false;
+      el.classList.remove('active');
+    });
+
+    el.addEventListener('mouseup', () => {
+      this.isDown = false;
+      el.classList.remove('active');
+    });
+
+    el.addEventListener('mousemove', (e) => {
+      if (!this.isDown) return;
+      e.preventDefault();
+      const x = e.pageX - el.offsetLeft;
+      const walk = (x - this.startX) * 2; // scroll speed
+      el.scrollLeft = this.scrollLeft - walk;
+    });
+  }
+
+  constructor(public authService: AuthService) {}
 }

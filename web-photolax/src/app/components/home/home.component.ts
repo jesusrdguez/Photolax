@@ -190,7 +190,6 @@ import { AuthService } from '../../services/auth.service';
             }
         }
 
-        /* Botón de menú */
         .menu-button {
             display: none;
             position: fixed;
@@ -206,7 +205,6 @@ import { AuthService } from '../../services/auth.service';
             color: white;
         }
 
-        /* Menú móvil */
         .mobile-menu {
             display: none;
             position: fixed;
@@ -268,7 +266,6 @@ import { AuthService } from '../../services/auth.service';
             width: 100%;
         }
 
-        /* Responsividad */
         @media (max-width: 1100px) {
             .main-logo {
                 transition: 1.4s cubic-bezier(0.8, 0, 0, 1);
@@ -370,7 +367,6 @@ export class HomeComponent {
 
     toggleMenu() {
         this.isMenuOpen = !this.isMenuOpen;
-        // Deshabilitar scroll cuando el menú está abierto
         if (this.isMenuOpen) {
             document.body.style.overflow = 'hidden';
         } else {

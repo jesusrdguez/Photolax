@@ -30,14 +30,16 @@ export class AuthService {
         private http: HttpClient,
         private router: Router
     ) {
-        // Recuperar token y usuario del localStorage al iniciar
         const token = localStorage.getItem('token');
         const user = localStorage.getItem('user');
-        if (token) this.tokenSubject.next(token);
-        if (user) this.currentUserSubject.next(JSON.parse(user));
+        if (token && this.isTokenValid(token)) {
+            this.tokenSubject.next(token);
+            if (user) this.currentUserSubject.next(JSON.parse(user));
+        } else {
+            this.logout();
+        }
     }
 
-    // Getters para observables
     get currentUser$(): Observable<User | null> {
         return this.currentUserSubject.asObservable();
     }
@@ -46,13 +48,17 @@ export class AuthService {
         return this.tokenSubject.asObservable();
     }
 
-    // Getters para valores actuales
     get currentUserValue(): User | null {
         return this.currentUserSubject.value;
     }
 
     get tokenValue(): string | null {
-        return this.tokenSubject.value;
+        const token = this.tokenSubject.value;
+        if (token && !this.isTokenValid(token)) {
+            this.logout();
+            return null;
+        }
+        return token;
     }
 
     login(credentials: { usernameOrEmail: string; password: string }): Observable<LoginResponse> {
@@ -85,7 +91,6 @@ export class AuthService {
         this.router.navigate(['/']);
     }
 
-    // Método para obtener el usuario actual
     getCurrentUser(): Observable<User> {
         const userId = this.currentUserValue?.id;
         if (!userId) {
@@ -99,7 +104,6 @@ export class AuthService {
         );
     }
 
-    // Método para actualizar el usuario actual
     updateUser(updates: Partial<User>): Observable<User> {
         const userId = this.currentUserValue?.id;
         if (!userId) {
@@ -115,7 +119,6 @@ export class AuthService {
         );
     }
 
-    // Método para eliminar la cuenta del usuario actual
     deleteAccount(): Observable<void> {
         const userId = this.currentUserValue?.id;
         if (!userId) {
@@ -129,10 +132,28 @@ export class AuthService {
     }
 
     isLoggedIn(): boolean {
-        return !!this.tokenValue;
+        const token = this.tokenValue;
+        return !!token && this.isTokenValid(token);
     }
 
     getToken(): string | null {
         return this.tokenValue;
+    }
+
+    private isTokenValid(token: string): boolean {
+        try {
+            const base64Url = token.split('.')[1];
+            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+            }).join(''));
+
+            const decodedToken = JSON.parse(jsonPayload);
+            const currentTime = Date.now() / 1000;
+
+            return decodedToken.exp > currentTime;
+        } catch (error) {
+            return false;
+        }
     }
 } 

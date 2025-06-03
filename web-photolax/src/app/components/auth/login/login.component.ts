@@ -19,7 +19,6 @@ import { ToastrService } from 'ngx-toastr';
         <div class="noise-overlay">
 
         <div class="page-container">
-            <!-- Header superior -->
             <div class="top-header">
                 <a routerLink="/" class="header-item">HOME</a>
                 <a routerLink="/rules" class="header-item">RULES</a>
@@ -27,12 +26,10 @@ import { ToastrService } from 'ngx-toastr';
                 <a routerLink="/register" class="header-item">REGISTER</a>
             </div>
             
-            <!-- Contenedor principal con la nueva clase login-box -->
             <div class="login-box">
                 <mat-card class="login-card">
                     <mat-card-content>
                         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-                            <!-- Campo de email con nuevo estilo -->
                             <div class="user-box">
                                 <mat-form-field appearance="fill">
                                     <mat-label>Email</mat-label>
@@ -44,7 +41,6 @@ import { ToastrService } from 'ngx-toastr';
                                 </div>
                             </div>
 
-                            <!-- Campo de contraseña con nuevo estilo -->
                             <div class="user-box">
                                 <mat-form-field appearance="fill">
                                     <mat-label>Password</mat-label>
@@ -57,7 +53,7 @@ import { ToastrService } from 'ngx-toastr';
                            <div style="display: flex; justify-content: center;">
                                 <button mat-raised-button class="login-button" type="submit" [disabled]="loginForm.invalid">
                                     <p>
-                                    Login
+                                    Log in
                                     </p>
                                 </button>
                             </div>

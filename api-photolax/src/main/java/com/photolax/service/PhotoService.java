@@ -10,6 +10,7 @@ import com.photolax.error.PhotoNotFoundException;
 import com.photolax.error.StorageException;
 import com.photolax.model.*;
 import com.photolax.repository.PhotoRepository;
+import com.photolax.repository.VoteRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +29,7 @@ public class PhotoService {
     private final PhotoRepository photoRepository;
     private final UserService userService;
     private final ContestService contestService;
+    private final VoteRepository voteRepository;
 
     private PhotoCardDTO convertToPhotoCardDTO(Photo photo) {
         User userEntity = photo.getUser();
@@ -79,6 +81,16 @@ public class PhotoService {
 
         if (contest.getEndDate() != null && contest.getEndDate().isBefore(LocalDateTime.now())) {
             throw new IllegalArgumentException("Cannot upload photo to a contest that has ended.");
+        }
+
+        long currentParticipants = photoRepository.findByContest_Id(contest.getId()).size();
+        if (currentParticipants >= contest.getMaxParticipants()) {
+            throw new IllegalArgumentException("Contest has reached its maximum number of participants.");
+        }
+
+        List<Photo> userPhotosInContest = photoRepository.findByUser_IdAndContest_Id(currentUser.getId(), contest.getId());
+        if (!userPhotosInContest.isEmpty()) {
+            throw new IllegalArgumentException("You have already submitted a photo to this contest.");
         }
 
         try {
@@ -189,6 +201,10 @@ public class PhotoService {
             throw new org.springframework.security.access.AccessDeniedException("You do not have permission to delete this photo.");
         }
         
+        // Delete all votes associated with the photo first
+        voteRepository.deleteByPhoto_Id(photoId);
+        
+        // Then delete the photo
         photoRepository.delete(photo);
     }
     

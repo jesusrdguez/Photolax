@@ -72,15 +72,15 @@ import { ConfirmDialogComponent } from '../shared/confirm-dialog/confirm-dialog.
                         <button mat-raised-button
                                 (click)="isEditing ? saveChanges() : startEditing()"
                                 [disabled]="isEditing && !accountForm.valid">
-                            {{ isEditing ? 'Save Changes' : 'Edit Profile' }}
+                            {{ isEditing ? 'SAVE CHANGES' : 'EDIT PROFILE   ' }}
                         </button>
 
                         <button mat-raised-button (click)="confirmDelete()">
-                            Delete Account
+                            DELETE ACCOUNT
                         </button>
 
                         <button mat-raised-button (click)="logout()">
-                            Log Out
+                            LOG OUT
                         </button>
                     </div>
                 </form>
@@ -244,7 +244,6 @@ export class AccountComponent implements OnInit {
     }
 
     ngOnInit() {
-        // Cargar los datos del usuario
         this.loadUserData();
     }
 
@@ -254,7 +253,7 @@ export class AccountComponent implements OnInit {
                 this.originalData = { ...user };
                 this.accountForm.patchValue(user);
                 console.log('user: ', user);
-                this.accountForm.disable(); // Deshabilitar campos inicialmente
+                this.accountForm.disable();
             },
             error: (error) => {
                 this.toastr.error('Error loading user data');
@@ -265,7 +264,6 @@ export class AccountComponent implements OnInit {
 
     startEditing() {
         this.isEditing = true;
-        // Enable all fields except username
         this.accountForm.get('firstName')?.enable();
         this.accountForm.get('lastName')?.enable();
         this.accountForm.get('email')?.enable();
@@ -275,7 +273,6 @@ export class AccountComponent implements OnInit {
         if (this.accountForm.valid) {
             const changes = this.accountForm.value;
             
-            // Solo enviar los campos que han cambiado
             const updatedFields = Object.keys(changes).reduce((acc: any, key) => {
                 if (changes[key] !== this.originalData[key]) {
                     acc[key] = changes[key];

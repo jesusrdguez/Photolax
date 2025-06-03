@@ -8,6 +8,8 @@ import { AccountComponent } from './components/account/account.component';
 import { PhotoUploadComponent } from './components/photo-upload/photo-upload.component';
 import { AuthGuard } from './guards/auth.guard';
 import { NoAuthGuard } from './guards/no-auth.guard';
+import { AdminGuard } from './guards/admin.guard';
+import { AdminComponent } from './components/admin/admin.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
@@ -33,6 +35,10 @@ export const routes: Routes = [
         component: PhotoUploadComponent,
         canActivate: [AuthGuard]
     },
-
+    {
+        path: 'admin',
+        component: AdminComponent,
+        canActivate: [AdminGuard]
+    },
     { path: '**', redirectTo: '' }
 ];

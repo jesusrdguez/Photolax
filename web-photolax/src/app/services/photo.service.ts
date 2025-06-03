@@ -12,9 +12,12 @@ export class PhotoService {
 
     uploadPhoto(data: PhotoUploadRequest): Observable<Photo> {
         const formData = new FormData();
-        formData.append('title', data.title);
+        const photoDetails = {
+            title: data.title,
+            contestId: data.contest_id
+        };
+        formData.append('photoDetails', new Blob([JSON.stringify(photoDetails)], { type: 'application/json' }));
         formData.append('file', data.file);
-        formData.append('contest_id', data.contest_id.toString());
 
         return this.http.post<Photo>(`${environment.apiUrl}/photos`, formData);
     }
@@ -31,7 +34,7 @@ export class PhotoService {
     }
 
     updatePhotoStatus(id: number, status: string): Observable<Photo> {
-        return this.http.patch<Photo>(`${environment.apiUrl}/photos/${id}/status`, { status });
+        return this.http.put<Photo>(`${environment.apiUrl}/photos/${id}/status`, { status });
     }
 
     deletePhoto(id: number): Observable<void> {
@@ -40,5 +43,9 @@ export class PhotoService {
 
     getUserPhotos(): Observable<PhotoCard[]> {
         return this.http.get<PhotoCard[]>(`${environment.apiUrl}/photos/user`);
+    }
+
+    getAllPhotosAdmin(): Observable<Photo[]> {
+        return this.http.get<Photo[]>(`${environment.apiUrl}/photos`);
     }
 } 

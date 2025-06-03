@@ -42,6 +42,7 @@ public class SecurityConfiguration {
 
                         .requestMatchers(HttpMethod.GET, "/users").hasAuthority(Role.ADMIN.name())
                         .requestMatchers(HttpMethod.POST, "/user").hasAuthority(Role.ADMIN.name())
+                        .requestMatchers(HttpMethod.PUT, "/api-photolax/photos/{id:[0-9]+}/status").hasAuthority(Role.ADMIN.name())
                         .requestMatchers(HttpMethod.GET, "/users/{id:[0-9]+}").hasAnyAuthority(Role.ADMIN.name(), Role.USER.name())
                         .requestMatchers(HttpMethod.PUT, "/users/{id:[0-9]+}").hasAnyAuthority(Role.ADMIN.name(), Role.USER.name())
                         .requestMatchers(HttpMethod.DELETE, "/users/{id:[0-9]+}").hasAuthority(Role.ADMIN.name())

@@ -8,14 +8,12 @@ export enum PhotoStatus {
 }
 
 export interface Photo {
-    photo_id?: number;
+    id: number;
     title: string;
-    upload_date?: Date;
     status: PhotoStatus;
-    file_data?: string;
-    user?: User;
-    contest?: Contest;
-    voteCount?: number;
+    photoBase64?: string;
+    username: string;
+    voteCount: number;
 }
 
 export interface PhotoUploadRequest {
