@@ -31,7 +31,7 @@ import { ConfirmDialogComponent } from '../shared/confirm-dialog/confirm-dialog.
                 </div>
             </div>
 
-            <h1 class="accountTitle">ACCOUNT</h1>
+            <h1 class="accountTitle reveal-text">ACCOUNT</h1>
             <div class="line"></div>    
             <div class="account-box">
             
@@ -128,7 +128,6 @@ import { ConfirmDialogComponent } from '../shared/confirm-dialog/confirm-dialog.
             background-repeat: no-repeat;
             position: relative;
             color: #DAD7CD;
-            max-height: 100vh;
         }
 
         .top-header {
@@ -174,12 +173,18 @@ import { ConfirmDialogComponent } from '../shared/confirm-dialog/confirm-dialog.
         .accountTitle {
             margin: 3px 0 2px 20px;
             font-size: 4vw;
+            color: #DAD7CD;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s ease forwards;
         }
 
         .line {
             border-bottom: 2px solid #DAD7CD;
             width: 90%;
             margin-left: 20px;
+            transform: scaleX(0);
+            animation: expandLine 1s ease forwards 0.5s;
         }
 
         .account-box {
@@ -219,6 +224,19 @@ import { ConfirmDialogComponent } from '../shared/confirm-dialog/confirm-dialog.
 
             button {
                 width: 100%;
+            }
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes expandLine {
+            to {
+                transform: scaleX(1);
             }
         }
     `]

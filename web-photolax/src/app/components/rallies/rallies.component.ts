@@ -23,7 +23,7 @@ import { AuthService } from '../../services/auth.service';
                     </a>
                 </div>
             </div>
-        <h1 class="ralliesTitle">RALLIES</h1>
+        <h1 class="ralliesTitle reveal-text">RALLIES</h1>
         <div class="line"></div>
         <div class="rallies-content" #ralliesContent>
           <div class="rallies-content-item">
@@ -141,12 +141,18 @@ import { AuthService } from '../../services/auth.service';
       .ralliesTitle {
           margin: 3px 0 2px 20px;
           font-size: 4vw;
+          color: #DAD7CD;
+          opacity: 0;
+          transform: translateY(20px);
+          animation: fadeInUp 0.8s ease forwards;
       }
 
       .line {
         border-bottom: 2px solid #DAD7CD;
         width: 90%;
         margin-left: 20px;
+        transform: scaleX(0);
+        animation: expandLine 1s ease forwards 0.5s;
       }
 
       .rallies-content {
@@ -222,6 +228,19 @@ import { AuthService } from '../../services/auth.service';
         .rallies-content {
           padding: 50px 10px;
           gap: 40px;
+        }
+      }
+
+      @keyframes fadeInUp {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes expandLine {
+        to {
+          transform: scaleX(1);
         }
       }
     `,

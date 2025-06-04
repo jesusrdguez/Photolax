@@ -33,7 +33,7 @@ import { ToastrService } from 'ngx-toastr';
             </a>
           </div>
         </div>
-        <h1 class="uploadPhotoTitle">PARTICIPATE</h1>
+        <h1 class="uploadPhotoTitle reveal-text">PARTICIPATE</h1>
         <div class="line"></div>
         <div class="upload-container">
           <div class="form-group">
@@ -182,7 +182,7 @@ import { ToastrService } from 'ngx-toastr';
         background-position: center;
         background-repeat: no-repeat;
         position: relative;
-        color: white;
+        color: #DAD7CD;
         max-height: 100vh;
       }
       .upload-container {
@@ -196,13 +196,19 @@ import { ToastrService } from 'ngx-toastr';
 
       .uploadPhotoTitle {
         margin: 3px 0 2px 20px;
-        font-size: 5vw;
+        font-size: 4vw;
+        color: #DAD7CD;
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeInUp 0.8s ease forwards;
       }
 
       .line {
-        border-bottom: 2px solid #dad7cd;
+        border-bottom: 2px solid #DAD7CD;
         width: 90%;
         margin-left: 20px;
+        transform: scaleX(0);
+        animation: expandLine 1s ease forwards 0.5s;
       }
 
       .title-input {
@@ -312,6 +318,19 @@ import { ToastrService } from 'ngx-toastr';
 
       .upload-button:disabled {
         cursor: not-allowed;
+      }
+
+      @keyframes fadeInUp {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes expandLine {
+        to {
+          transform: scaleX(1);
+        }
       }
     `,
   ],

@@ -27,7 +27,7 @@ import { AuthService } from '../../services/auth.service';
                 </div>
             </div>
 
-            <h1 class="adminTitle">ADMIN</h1>
+            <h1 class="adminTitle reveal-text">ADMIN</h1>
             <div class="line"></div>    
             <div class="account-box">          
               <div class="photos-grid">
@@ -133,12 +133,17 @@ import { AuthService } from '../../services/auth.service';
             margin: 3px 0 2px 20px;
             font-size: 4vw;
             color: #DAD7CD;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s ease forwards;
         }
 
         .line {
             border-bottom: 2px solid #DAD7CD;
             width: 90%;
             margin-left: 20px;
+            transform: scaleX(0);
+            animation: expandLine 1s ease forwards 0.5s;
         }
 
         .photos-grid {
@@ -174,6 +179,19 @@ import { AuthService } from '../../services/auth.service';
 
         button {
             width: 100%;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes expandLine {
+            to {
+                transform: scaleX(1);
+            }
         }
     `]
 })

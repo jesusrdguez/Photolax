@@ -34,6 +34,7 @@ import { AuthService } from '../../services/auth.service';
                         <mat-icon>close</mat-icon>
                     </button>
                 </div>
+                <a routerLink="/" class="mobile-item text-xl font-medium">HOME</a>
                 <a routerLink="/rules" class="mobile-item text-xl font-medium">RULES</a>
                 <a routerLink="/rallies" class="mobile-item text-xl font-medium">RALLIES</a>
                 <a [routerLink]="authService.isLoggedIn() ? '/account' : '/login'" class="mobile-item text-xl font-medium">
@@ -49,7 +50,7 @@ import { AuthService } from '../../services/auth.service';
     styles: [`
         .noise-overlay {
             position: relative;
-            z-index: 99;
+            z-index: 1000;
             overflow: hidden;
         }
 
@@ -213,10 +214,10 @@ import { AuthService } from '../../services/auth.service';
             width: 100%;
             height: 100vh;
             background-color: rgba(0, 0, 0, 0.95);
-            z-index: 999;
+            z-index: 15;
             transition: right 0.5s ease;
             flex-direction: column;
-            align-items: center;
+            align-items: left;
             padding-top: 100px;
         }
 
@@ -240,26 +241,15 @@ import { AuthService } from '../../services/auth.service';
         }
 
         .mobile-item {
-            color: white;
+            color: #DAD7CD;
             text-decoration: none;
-            padding: 20px 0;
-            font-size: 24px;
+            padding: 10px 0;
+            font-size: 30px;
             letter-spacing: 3px;
             text-transform: uppercase;
-            font-weight: 300;
+            font-weight: bolder;
             transition: all 0.3s ease;
             position: relative;
-        }
-
-        .mobile-item::after {
-            content: '';
-            position: absolute;
-            bottom: 15px;
-            left: 0;
-            width: 0;
-            height: 1px;
-            background-color: white;
-            transition: width 0.3s ease;
         }
 
         .mobile-item:hover::after {
