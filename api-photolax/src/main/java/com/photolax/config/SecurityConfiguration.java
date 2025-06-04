@@ -31,6 +31,8 @@ public class SecurityConfiguration {
                         .requestMatchers("/api-photolax/auth/**").permitAll()
                         
                         .requestMatchers(HttpMethod.GET, "/contests/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api-photolax/contests/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api-photolax/contests/title/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api-photolax/photos/feed").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api-photolax/photos").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api-photolax/photos/{id:[0-9]+}").permitAll()

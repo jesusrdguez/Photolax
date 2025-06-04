@@ -92,7 +92,6 @@ import { AuthService } from '../../services/auth.service';
             max-height: 100vh;
         }
 
-        /* Header superior */
         .top-header {
             display: flex;
             justify-content: center;
@@ -107,7 +106,7 @@ import { AuthService } from '../../services/auth.service';
         .header-item {
             font-size: 1rem;
             text-transform: uppercase;
-            color: #1A1D1B;
+            color: #DAD7CD;
             text-decoration: none;
             position: relative;
             padding-bottom: 5px;
@@ -115,7 +114,7 @@ import { AuthService } from '../../services/auth.service';
         }
 
         .header-item:hover {
-            color:rgb(0, 0, 0);
+            color:rgb(255, 255, 255);
         }
 
         .header-item::after {
@@ -125,7 +124,7 @@ import { AuthService } from '../../services/auth.service';
             left: 0;
             width: 0;
             height: 1.4px;
-            background-color: black;
+            background-color: white;
             transition: width 0.3s ease;
         }
 
@@ -314,7 +313,7 @@ import { AuthService } from '../../services/auth.service';
                 position: relative;
                 z-index: 6;
                 pointer-events: none;
-                padding-top: 20rem;
+                padding-top: 10rem;
                 font-family: Canopee, Helvetica, Arial, sans-serif;
                 font-size: 17.2vw;
                 text-indent: -1vw;
@@ -334,7 +333,7 @@ import { AuthService } from '../../services/auth.service';
                 position: relative;
                 z-index: 6;
                 pointer-events: none;
-                padding-top: 22rem;
+                padding-top: 15rem;
                 font-family: Canopee, Helvetica, Arial, sans-serif;
                 font-size: 17vw;
                 text-indent: -1vw;

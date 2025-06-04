@@ -5,6 +5,8 @@ import { Router, RouterModule } from '@angular/router';
 import { MaterialModule } from '../../../shared/material.module';
 import { AuthService } from '../../../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
     selector: 'app-login',
@@ -13,58 +15,75 @@ import { ToastrService } from 'ngx-toastr';
         CommonModule,
         ReactiveFormsModule,
         MaterialModule,
-        RouterModule
+        RouterModule,
+        MatIconModule,
+        MatButtonModule
     ],
     template: `
         <div class="noise-overlay">
+            <div class="page-container">
+                <div class="top-header">
+                    <a routerLink="/" class="header-item">HOME</a>
+                    <a routerLink="/rules" class="header-item">RULES</a>
+                    <a routerLink="/rallies" class="header-item">RALLIES</a>
+                    <a routerLink="/register" class="header-item">REGISTER</a>
+                </div>
 
-        <div class="page-container">
-            <div class="top-header">
-                <a routerLink="/" class="header-item">HOME</a>
-                <a routerLink="/rules" class="header-item">RULES</a>
-                <a routerLink="/rallies" class="header-item">RALLIES</a>
-                <a routerLink="/register" class="header-item">REGISTER</a>
-            </div>
-            
-            <div class="login-box">
-                <mat-card class="login-card">
-                    <mat-card-content>
-                        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-                            <div class="user-box">
-                                <mat-form-field appearance="fill">
-                                    <mat-label>Email</mat-label>
-                                    <input matInput class="boton-input" type="email" formControlName="usernameOrEmail" required>
-                                </mat-form-field>
-                                <div *ngIf="loginForm.get('usernameOrEmail')?.invalid && loginForm.get('usernameOrEmail')?.touched" class="error-message">
-                                    <div *ngIf="loginForm.get('usernameOrEmail')?.hasError('required')">Email is required</div>
-                                    <div *ngIf="loginForm.get('usernameOrEmail')?.hasError('email')">Please enter a valid email</div>
-                                </div>
-                            </div>
+                <button mat-icon-button class="menu-button" (click)="toggleMenu()">
+                    <mat-icon>menu</mat-icon>
+                </button>
 
-                            <div class="user-box">
-                                <mat-form-field appearance="fill">
-                                    <mat-label>Password</mat-label>
-                                    <input matInput type="password" formControlName="password" required>
-                                </mat-form-field>
-                                <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="error-message">
-                                    Password is required
+                <div class="mobile-menu" [class.show-menu]="isMenuOpen">
+                    <div class="mobile-header">
+                        <button mat-icon-button class="close-button" (click)="toggleMenu()">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </div>
+                    <a routerLink="/" class="mobile-item text-xl font-medium">HOME</a>
+                    <a routerLink="/rules" class="mobile-item text-xl font-medium">RULES</a>
+                    <a routerLink="/rallies" class="mobile-item text-xl font-medium">RALLIES</a>
+                    <a routerLink="/register" class="mobile-item text-xl font-medium">REGISTER</a>
+                </div>
+                
+                <div class="login-box">
+                    <mat-card class="login-card">
+                        <mat-card-content>
+                            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                                <div class="user-box">
+                                    <mat-form-field appearance="fill">
+                                        <mat-label>Email</mat-label>
+                                        <input matInput class="boton-input" type="email" formControlName="usernameOrEmail" required>
+                                    </mat-form-field>
+                                    <div *ngIf="loginForm.get('usernameOrEmail')?.invalid && loginForm.get('usernameOrEmail')?.touched" class="error-message">
+                                        <div *ngIf="loginForm.get('usernameOrEmail')?.hasError('required')">Email is required</div>
+                                        <div *ngIf="loginForm.get('usernameOrEmail')?.hasError('email')">Please enter a valid email</div>
+                                    </div>
                                 </div>
+
+                                <div class="user-box">
+                                    <mat-form-field appearance="fill">
+                                        <mat-label>Password</mat-label>
+                                        <input matInput type="password" formControlName="password" required>
+                                    </mat-form-field>
+                                    <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="error-message">
+                                        Password is required
+                                    </div>
+                                </div>
+                               <div style="display: flex; justify-content: center;">
+                                    <button mat-raised-button class="login-button" type="submit" [disabled]="loginForm.invalid">
+                                        <p>
+                                        Log in
+                                        </p>
+                                    </button>
+                                </div>
+                            </form>
+                        </mat-card-content>
+                            <div class="registerLink" style="display: flex; justify-content: center">
+                                <a class="link" routerLink="/register">Need an account?</a>
                             </div>
-                           <div style="display: flex; justify-content: center;">
-                                <button mat-raised-button class="login-button" type="submit" [disabled]="loginForm.invalid">
-                                    <p>
-                                    Log in
-                                    </p>
-                                </button>
-                            </div>
-                        </form>
-                    </mat-card-content>
-                        <div class="registerLink" style="display: flex; justify-content: center">
-                            <a class="link" routerLink="/register">Need an account?</a>
-                        </div>
-                </mat-card>
+                    </mat-card>
+                </div>
             </div>
-        </div>
         </div>
     `,
     styles: [` 
@@ -224,10 +243,91 @@ import { ToastrService } from 'ngx-toastr';
             margin-top: 16px;
             align-self: center;
         }
+
+        .menu-button {
+            display: none;
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            z-index: 1000;
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            border-radius: 0;
+        }
+
+        .menu-button mat-icon {
+            color: white;
+        }
+
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 0;
+            right: -110%;
+            width: 100%;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.95);
+            z-index: 15;
+            transition: right 0.5s ease;
+            flex-direction: column;
+            align-items: left;
+            padding-top: 100px;
+            padding-left: 40px;
+        }
+
+        .mobile-menu.show-menu {
+            right: 0;
+        }
+
+        .mobile-header {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+        }
+
+        .close-button {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 0;
+        }
+
+        .close-button mat-icon {
+            color: white;
+        }
+
+        .mobile-item {
+            color: #DAD7CD;
+            text-decoration: none;
+            padding: 15px 0;
+            font-size: 30px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-weight: bolder;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .mobile-item:hover {
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .top-header {
+                display: none;
+            }
+
+            .menu-button {
+                display: block;
+            }
+
+            .mobile-menu {
+                display: flex;
+            }
+        }
     `]
 })
 export class LoginComponent {
     loginForm: FormGroup;
+    isMenuOpen = false;
 
     constructor(
         private fb: FormBuilder,
@@ -239,6 +339,15 @@ export class LoginComponent {
             usernameOrEmail: ['', [Validators.required, Validators.email]],
             password: ['', Validators.required]
         });
+    }
+
+    toggleMenu() {
+        this.isMenuOpen = !this.isMenuOpen;
+        if (this.isMenuOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
     }
 
     onSubmit(): void {

@@ -7,6 +7,8 @@ import { AuthService } from '../../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../shared/confirm-dialog/confirm-dialog.component';
+    import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
     selector: 'app-account',
@@ -15,7 +17,9 @@ import { ConfirmDialogComponent } from '../shared/confirm-dialog/confirm-dialog.
         CommonModule,
         ReactiveFormsModule,
         MaterialModule,
-        RouterModule
+        RouterModule,
+        MatIconModule,
+        MatButtonModule
     ],
     template: `
     <div class="noise-overlay">
@@ -29,6 +33,24 @@ import { ConfirmDialogComponent } from '../shared/confirm-dialog/confirm-dialog.
                         {{ authService.isLoggedIn() ? 'ACCOUNT' : 'LOGIN' }}
                     </a>
                 </div>
+            </div>
+
+            <button mat-icon-button class="menu-button" (click)="toggleMenu()">
+                <mat-icon>menu</mat-icon>
+            </button>
+
+            <div class="mobile-menu" [class.show-menu]="isMenuOpen">
+                <div class="mobile-header">
+                    <button mat-icon-button class="close-button" (click)="toggleMenu()">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </div>
+                <a routerLink="/" class="mobile-item text-xl font-medium">HOME</a>
+                <a routerLink="/rules" class="mobile-item text-xl font-medium">RULES</a>
+                <a routerLink="/rallies" class="mobile-item text-xl font-medium">RALLIES</a>
+                <a [routerLink]="authService.isLoggedIn() ? '/account' : '/login'" class="mobile-item text-xl font-medium">
+                    {{ authService.isLoggedIn() ? 'ACCOUNT' : 'LOGIN' }}
+                </a>
             </div>
 
             <h1 class="accountTitle reveal-text">ACCOUNT</h1>
@@ -239,12 +261,93 @@ import { ConfirmDialogComponent } from '../shared/confirm-dialog/confirm-dialog.
                 transform: scaleX(1);
             }
         }
+
+        .menu-button {
+            display: none;
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            z-index: 1000;
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            border-radius: 0;
+        }
+
+        .menu-button mat-icon {
+            color: white;
+        }
+
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 100%;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.95);
+            z-index: 15;
+            transition: right 0.5s ease;
+            flex-direction: column;
+            align-items: left;
+            padding-top: 100px;
+            padding-left: 40px;
+        }
+
+        .mobile-menu.show-menu {
+            right: 0;
+        }
+
+        .mobile-header {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+        }
+
+        .close-button {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 0;
+        }
+
+        .close-button mat-icon {
+            color: white;
+        }
+
+        .mobile-item {
+            color: #DAD7CD;
+            text-decoration: none;
+            padding: 15px 0;
+            font-size: 30px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-weight: bolder;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .mobile-item:hover {
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .top-header {
+                display: none;
+            }
+
+            .menu-button {
+                display: block;
+            }
+
+            .mobile-menu {
+                display: flex;
+            }
+        }
     `]
 })
 export class AccountComponent implements OnInit {
     accountForm: FormGroup;
     isEditing = false;
     originalData: any;
+    isMenuOpen = false;
 
     constructor(
         private fb: FormBuilder,
@@ -254,11 +357,20 @@ export class AccountComponent implements OnInit {
         private dialog: MatDialog
     ) {
         this.accountForm = this.fb.group({
-            username: [{value: '', disabled: true}],
+            username: ['', Validators.required],
             firstName: ['', Validators.required],
             lastName: ['', Validators.required],
             email: ['', [Validators.required, Validators.email]]
         });
+    }
+
+    toggleMenu() {
+        this.isMenuOpen = !this.isMenuOpen;
+        if (this.isMenuOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
     }
 
     ngOnInit() {

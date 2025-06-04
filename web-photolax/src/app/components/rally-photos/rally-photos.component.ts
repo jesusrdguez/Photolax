@@ -11,62 +11,87 @@ import { Contest } from '../../models/contest.model';
 import { ToastrService } from 'ngx-toastr';
 import { switchMap, tap, map } from 'rxjs/operators';
 import { Observable, of, forkJoin } from 'rxjs';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
     selector: 'app-rally-photos',
     standalone: true,
-    imports: [CommonModule, MaterialModule, RouterModule],
+    imports: [CommonModule, MaterialModule, RouterModule, MatIconModule, MatButtonModule],
     template: `
         <div class="noise-overlay">
-        <div class="rally-container">
-            <div class="top-header">
-                <div class="header-links">
-                    <a routerLink="/" class="header-item">HOME</a>
-                    <a routerLink="/rules" class="header-item text-lg font-medium">RULES</a>
-                    <a routerLink="/rallies" class="header-item text-lg font-medium">RALLIES</a>
-                    <a [routerLink]="authService.isLoggedIn() ? '/account' : '/login'" class="header-item text-lg font-medium">
+            <div class="rally-container">
+                <div class="top-header">
+                    <div class="header-links">
+                        <a routerLink="/" class="header-item">HOME</a>
+                        <a routerLink="/rules" class="header-item text-lg font-medium">RULES</a>
+                        <a routerLink="/rallies" class="header-item text-lg font-medium">RALLIES</a>
+                        <a [routerLink]="authService.isLoggedIn() ? '/account' : '/login'" class="header-item text-lg font-medium">
+                            {{ authService.isLoggedIn() ? 'ACCOUNT' : 'LOGIN' }}
+                        </a>
+                    </div>
+                </div>
+
+                <button mat-icon-button class="menu-button" (click)="toggleMenu()">
+                    <mat-icon>menu</mat-icon>
+                </button>
+
+                <div class="mobile-menu" [class.show-menu]="isMenuOpen">
+                    <div class="mobile-header">
+                        <button mat-icon-button class="close-button" (click)="toggleMenu()">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </div>
+                    <a routerLink="/" class="mobile-item text-xl font-medium">HOME</a>
+                    <a routerLink="/rules" class="mobile-item text-xl font-medium">RULES</a>
+                    <a routerLink="/rallies" class="mobile-item text-xl font-medium">RALLIES</a>
+                    <a [routerLink]="authService.isLoggedIn() ? '/account' : '/login'" class="mobile-item text-xl font-medium">
                         {{ authService.isLoggedIn() ? 'ACCOUNT' : 'LOGIN' }}
                     </a>
                 </div>
-            </div>
-            <h1 class="rallyTitle">{{ contest?.title || 'Loading...' }}</h1>
-            
-            <div class="photos-grid">
-                <div *ngFor="let photo of photos" 
-                     class="photo-item"
-                     (click)="openPhoto(photo)">
-                    <img [src]="'data:image/jpeg;base64,' + photo.photoBase64" 
-                         [alt]="photo.title"
-                         class="photo-image">
-                    <div *ngIf="hasVoted(photo.id)" class="voted-indicator">
-                        <mat-icon>favorite</mat-icon>
+
+                <h1 class="rallyTitle">{{ contest?.title || 'Loading...' }}</h1>
+                
+                <div class="participateLink" style="display: flex; justify-content: center">
+                    <h1 routerLink="/contests/{{ contest?.title }}/participate">PARTICIPATE</h1>
+                </div>
+                
+                <div class="photos-grid">
+                    <div *ngFor="let photo of photos" 
+                         class="photo-item"
+                         (click)="openPhoto(photo)">
+                        <img [src]="'data:image/jpeg;base64,' + photo.photoBase64" 
+                             [alt]="photo.title"
+                             class="photo-image">
+                        <div *ngIf="hasVoted(photo.id)" class="voted-indicator">
+                            <mat-icon>favorite</mat-icon>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div *ngIf="selectedPhoto" class="photo-modal" (click)="closePhoto($event)">
-                <div class="modal-content">
-                    <img [src]="'data:image/jpeg;base64,' + selectedPhoto.photoBase64" 
-                         [alt]="selectedPhoto.title"
-                         class="enlarged-photo">
-                    
-                    <div class="modal-controls">
-                        <button mat-icon-button 
-                                class="vote-button" 
-                                [disabled]="!canVote || hasVoted(selectedPhoto.id)"
-                                (click)="voteForPhoto($event, selectedPhoto.id)">
-                            <mat-icon>{{ hasVoted(selectedPhoto.id) ? 'favorite' : 'favorite_border' }}</mat-icon>
-                        </button>
-                        <button mat-raised-button color="primary" (click)="closePhoto($event)">CLOSE</button>
+                <div *ngIf="selectedPhoto" class="photo-modal" (click)="closePhoto($event)">
+                    <div class="modal-content">
+                        <img [src]="'data:image/jpeg;base64,' + selectedPhoto.photoBase64" 
+                             [alt]="selectedPhoto.title"
+                             class="enlarged-photo">
+                        
+                        <div class="modal-controls">
+                            <button mat-icon-button 
+                                    class="vote-button" 
+                                    [disabled]="!canVote || hasVoted(selectedPhoto.id)"
+                                    (click)="voteForPhoto($event, selectedPhoto.id)">
+                                <mat-icon>{{ hasVoted(selectedPhoto.id) ? 'favorite' : 'favorite_border' }}</mat-icon>
+                            </button>
+                            <button mat-raised-button color="primary" (click)="closePhoto($event)">CLOSE</button>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="votes-indicator" *ngIf="authService.isLoggedIn()">
-                Votes remaining: {{ remainingVotes }}
+                <div class="votes-indicator" *ngIf="authService.isLoggedIn()">
+                    Votes remaining: {{ remainingVotes }}
+                </div>
             </div>
         </div>
-    </div>
     `,
     styles: [`
         .noise-overlay {
@@ -240,6 +265,95 @@ import { Observable, of, forkJoin } from 'rxjs';
             border-radius: 20px;
             font-size: 0.9rem;
         }
+
+        .participateLink {
+            align-self: center;
+        } 
+
+        .participateLink h1 {
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .menu-button {
+            display: none;
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            z-index: 1000;
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            border-radius: 0;
+        }
+
+        .menu-button mat-icon {
+            color: white;
+        }
+
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 100%;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.95);
+            z-index: 15;
+            transition: right 0.5s ease;
+            flex-direction: column;
+            align-items: left;
+            padding-top: 100px;
+            padding-left: 40px;
+        }
+
+        .mobile-menu.show-menu {
+            right: 0;
+        }
+
+        .mobile-header {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+        }
+
+        .close-button {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 0;
+        }
+
+        .close-button mat-icon {
+            color: white;
+        }
+
+        .mobile-item {
+            color: #DAD7CD;
+            text-decoration: none;
+            padding: 15px 0;
+            font-size: 30px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-weight: bolder;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .mobile-item:hover {
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .top-header {
+                display: none;
+            }
+
+            .menu-button {
+                display: block;
+            }
+
+            .mobile-menu {
+                display: flex;
+            }
+        }
     `]
 })
 export class RallyPhotosComponent implements OnInit {
@@ -249,6 +363,7 @@ export class RallyPhotosComponent implements OnInit {
     votedPhotoIds: Set<number> = new Set();
     remainingVotes: number = 3;
     canVote: boolean = false;
+    isMenuOpen = false;
 
     constructor(
         private route: ActivatedRoute,
@@ -258,6 +373,15 @@ export class RallyPhotosComponent implements OnInit {
         public authService: AuthService,
         private toastr: ToastrService
     ) {}
+
+    toggleMenu() {
+        this.isMenuOpen = !this.isMenuOpen;
+        if (this.isMenuOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
+    }
 
     ngOnInit() {
         this.route.params.pipe(

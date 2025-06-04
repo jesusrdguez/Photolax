@@ -5,6 +5,8 @@ import { Router, RouterModule } from '@angular/router';
 import { MaterialModule } from '../../../shared/material.module';
 import { AuthService } from '../../../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
     selector: 'app-register',
@@ -13,7 +15,9 @@ import { ToastrService } from 'ngx-toastr';
         CommonModule,
         ReactiveFormsModule,
         MaterialModule,
-        RouterModule
+        RouterModule,
+        MatIconModule,
+        MatButtonModule
     ],
     template: `
     <div class="noise-overlay">
@@ -23,6 +27,22 @@ import { ToastrService } from 'ngx-toastr';
                 <a routerLink="/rules" class="header-item">RULES</a>
                 <a routerLink="/rallies" class="header-item">RALLIES</a>
                 <a routerLink="/login" class="header-item">LOGIN</a>
+            </div>
+
+            <button mat-icon-button class="menu-button" (click)="toggleMenu()">
+                <mat-icon>menu</mat-icon>
+            </button>
+
+            <div class="mobile-menu" [class.show-menu]="isMenuOpen">
+                <div class="mobile-header">
+                    <button mat-icon-button class="close-button" (click)="toggleMenu()">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </div>
+                <a routerLink="/" class="mobile-item text-xl font-medium">HOME</a>
+                <a routerLink="/rules" class="mobile-item text-xl font-medium">RULES</a>
+                <a routerLink="/rallies" class="mobile-item text-xl font-medium">RALLIES</a>
+                <a routerLink="/login" class="mobile-item text-xl font-medium">LOGIN</a>
             </div>
             
             <div class="login-box">
@@ -263,10 +283,91 @@ import { ToastrService } from 'ngx-toastr';
                 padding: 30px 20px;
             }
         }
+
+        .menu-button {
+            display: none;
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            z-index: 1000;
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            border-radius: 0;
+        }
+
+        .menu-button mat-icon {
+            color: white;
+        }
+
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 0;
+            right: -110%;
+            width: 100%;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.95);
+            z-index: 15;
+            transition: right 0.5s ease;
+            flex-direction: column;
+            align-items: left;
+            padding-top: 100px;
+            padding-left: 40px;
+        }
+
+        .mobile-menu.show-menu {
+            right: 0;
+        }
+
+        .mobile-header {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+        }
+
+        .close-button {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 0;
+        }
+
+        .close-button mat-icon {
+            color: white;
+        }
+
+        .mobile-item {
+            color: #DAD7CD;
+            text-decoration: none;
+            padding: 15px 0;
+            font-size: 30px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-weight: bolder;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .mobile-item:hover {
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .top-header {
+                display: none;
+            }
+
+            .menu-button {
+                display: block;
+            }
+
+            .mobile-menu {
+                display: flex;
+            }
+        }
     `]
 })
 export class RegisterComponent {
     registerForm: FormGroup;
+    isMenuOpen = false;
 
     constructor(
         private fb: FormBuilder,
@@ -281,6 +382,15 @@ export class RegisterComponent {
             email: ['', [Validators.required, Validators.email]],
             password: ['', [Validators.required, Validators.minLength(6)]]
         });
+    }
+
+    toggleMenu() {
+        this.isMenuOpen = !this.isMenuOpen;
+        if (this.isMenuOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
     }
 
     onSubmit(): void {

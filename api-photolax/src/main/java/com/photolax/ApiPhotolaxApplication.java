@@ -27,7 +27,7 @@ public class ApiPhotolaxApplication {
                         .username("admin")
                         .email("admin@photolax.com")
                         .password(passwordEncoder.encode("adminpassword"))
-                        .firstName("Admin")
+                        .firstName("Admin") 
                         .lastName("User")
                         .role(Role.ADMIN)
                         .build();

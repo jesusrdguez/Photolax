@@ -2,27 +2,50 @@ import { Component, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-rallies',
   standalone: true,
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    MatIconModule,
+    MatButtonModule
   ],
   template: `
     <div class="noise-overlay">
       <div class="rallies-container">
-      <div class="top-header">
-                <div class="header-links">
-                    <a routerLink="/" class="header-item">HOME</a>
-                    <a routerLink="/rules" class="header-item text-lg font-medium">RULES</a>
-                    <a routerLink="/rallies" class="header-item text-lg font-medium">RALLIES</a>
-                    <a [routerLink]="authService.isLoggedIn() ? '/account' : '/login'" class="header-item text-lg font-medium">
-                        {{ authService.isLoggedIn() ? 'ACCOUNT' : 'LOGIN' }}
-                    </a>
-                </div>
-            </div>
+        <div class="top-header">
+          <div class="header-links">
+            <a routerLink="/" class="header-item">HOME</a>
+            <a routerLink="/rules" class="header-item text-lg font-medium">RULES</a>
+            <a routerLink="/rallies" class="header-item text-lg font-medium">RALLIES</a>
+            <a [routerLink]="authService.isLoggedIn() ? '/account' : '/login'" class="header-item text-lg font-medium">
+              {{ authService.isLoggedIn() ? 'ACCOUNT' : 'LOGIN' }}
+            </a>
+          </div>
+        </div>
+
+        <button mat-icon-button class="menu-button" (click)="toggleMenu()">
+          <mat-icon>menu</mat-icon>
+        </button>
+
+        <div class="mobile-menu" [class.show-menu]="isMenuOpen">
+          <div class="mobile-header">
+            <button mat-icon-button class="close-button" (click)="toggleMenu()">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+          <a routerLink="/" class="mobile-item text-xl font-medium">HOME</a>
+          <a routerLink="/rules" class="mobile-item text-xl font-medium">RULES</a>
+          <a routerLink="/rallies" class="mobile-item text-xl font-medium">RALLIES</a>
+          <a [routerLink]="authService.isLoggedIn() ? '/account' : '/login'" class="mobile-item text-xl font-medium">
+            {{ authService.isLoggedIn() ? 'ACCOUNT' : 'LOGIN' }}
+          </a>
+        </div>
+
         <h1 class="ralliesTitle reveal-text">RALLIES</h1>
         <div class="line"></div>
         <div class="rallies-content" #ralliesContent>
@@ -31,7 +54,7 @@ import { AuthService } from '../../services/auth.service';
             <img src="assets/park-sunset.webp">
             <p>SUNSETS-RISES</p>
           </div>
-              <div class="rallies-content-item notAvailable">
+          <div class="rallies-content-item notAvailable">
             <a routerLink="/contests/sunsets-rises/photos"></a>
             <img src="assets/flor-spring.webp">
             <p>SPRING FLOWERS</p>
@@ -41,6 +64,7 @@ import { AuthService } from '../../services/auth.service';
             <img src="assets/japanase-streetfood.webp">
             <p>JAPANASE STREET FOOD</p>
           </div>
+        </div>
       </div>
     </div>
   `,
@@ -243,6 +267,86 @@ import { AuthService } from '../../services/auth.service';
           transform: scaleX(1);
         }
       }
+
+      .menu-button {
+        display: none;
+        position: fixed;
+        top: 30px;
+        right: 30px;
+        z-index: 1000;
+        background-color: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(5px);
+        border-radius: 0;
+      }
+
+      .menu-button mat-icon {
+        color: white;
+      }
+
+      .mobile-menu {
+        display: none;
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 100%;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.95);
+        z-index: 15;
+        transition: right 0.5s ease;
+        flex-direction: column;
+        align-items: left;
+        padding-top: 100px;
+        padding-left: 40px;
+      }
+
+      .mobile-menu.show-menu {
+        right: 0;
+      }
+
+      .mobile-header {
+        position: absolute;
+        top: 30px;
+        right: 30px;
+      }
+
+      .close-button {
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 0;
+      }
+
+      .close-button mat-icon {
+        color: white;
+      }
+
+      .mobile-item {
+        color: #DAD7CD;
+        text-decoration: none;
+        padding: 15px 0;
+        font-size: 30px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        font-weight: bolder;
+        transition: all 0.3s ease;
+        position: relative;
+      }
+
+      .mobile-item:hover {
+        color: white;
+      }
+
+      @media (max-width: 768px) {
+        .top-header {
+          display: none;
+        }
+
+        .menu-button {
+          display: block;
+        }
+
+        .mobile-menu {
+          display: flex;
+        }
+      }
     `,
   ],
 })
@@ -252,6 +356,7 @@ export class RalliesComponent implements AfterViewInit {
   private isDown = false;
   private startX = 0;
   private scrollLeft = 0;
+  isMenuOpen = false;
 
   ngAfterViewInit(): void {
     const el = this.ralliesContent.nativeElement as HTMLElement;
@@ -283,4 +388,13 @@ export class RalliesComponent implements AfterViewInit {
   }
 
   constructor(public authService: AuthService) {}
+
+  toggleMenu() {
+    this.isMenuOpen = !this.isMenuOpen;
+    if (this.isMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+  }
 }
