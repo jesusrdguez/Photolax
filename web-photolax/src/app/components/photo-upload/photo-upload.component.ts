@@ -60,7 +60,7 @@ import { ToastrService } from 'ngx-toastr';
               <button class="select-button" (click)="fileInput.click()">
                 Select File
               </button>
-              <p class="file-types">Accepted formats: JPG, PNG, WEBP</p>
+              <p class="file-types">Accepted formats: JPG, PNG, WEBP, AVIF</p>
             </div>
             <input
               #fileInput
@@ -357,6 +357,10 @@ export class PhotoUploadComponent implements OnInit {
   private checkUserParticipation() {
     if (!this.contest) return;
 
+    if (this.authService.currentUserValue?.role === 'ADMIN') {
+      return;
+    }
+
     this.photoService.getPhotos(this.contest.contest_id).subscribe({
       next: (photos) => {
         const userHasSubmitted = photos.some(
@@ -414,8 +418,8 @@ export class PhotoUploadComponent implements OnInit {
   }
 
   private async handleFile(file: File) {
-    if (!file.type.match(/^image\/(jpeg|png|webp)$/)) {
-      this.errorMessage = 'Only JPG, PNG and GIF files are allowed';
+    if (!file.type.match(/^image\/(jpeg|png|webp|avif)$/)) {
+      this.errorMessage = 'Only JPG, PNG, WEBP and AVIF files are allowed';
       return;
     }
 

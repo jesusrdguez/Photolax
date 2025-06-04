@@ -11,7 +11,7 @@ export class VoteService {
     constructor(private http: HttpClient) { }
 
     voteForPhoto(photoId: number): Observable<Vote> {
-        return this.http.post<Vote>(`${environment.apiUrl}/votes`, { photo_id: photoId });
+        return this.http.post<Vote>(`${environment.apiUrl}/votes/photo/${photoId}`, {});
     }
 
     getUserVotes(): Observable<Vote[]> {

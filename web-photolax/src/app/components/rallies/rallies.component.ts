@@ -27,17 +27,17 @@ import { AuthService } from '../../services/auth.service';
         <div class="line"></div>
         <div class="rallies-content" #ralliesContent>
           <div class="rallies-content-item">
-            <a routerLink="/contests/sunsets-rises"></a>
+            <a routerLink="/contests/sunsets-rises/photos"></a>
             <img src="assets/park-sunset.webp">
             <p>SUNSETS-RISES</p>
           </div>
               <div class="rallies-content-item notAvailable">
-            <a routerLink="/contests/sunsets-rises"></a>
+            <a routerLink="/contests/sunsets-rises/photos"></a>
             <img src="assets/flor-spring.webp">
             <p>SPRING FLOWERS</p>
           </div>
           <div class="rallies-content-item notAvailable">
-            <a routerLink="/contests/sunsets-rises"></a>
+            <a routerLink="/contests/sunsets-rises/photos"></a>
             <img src="assets/japanase-streetfood.webp">
             <p>JAPANASE STREET FOOD</p>
           </div>
@@ -133,7 +133,7 @@ import { AuthService } from '../../services/auth.service';
         background-position: center;
         background-repeat: no-repeat;
         position: relative;
-        color: white;
+        color: #DAD7CD;
         max-height: 100vh;
         min-height: 100vh;
       }
@@ -166,7 +166,7 @@ import { AuthService } from '../../services/auth.service';
         display: none;
       }
 
-      .rallies-content-item {
+      .rallies-content-item { 
         width: 500px;
         margin-top: 20px;
         height: 65vh;

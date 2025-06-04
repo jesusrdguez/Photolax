@@ -28,4 +28,13 @@ export interface PhotoCard {
     imageUrl: string;
     voteCount: number;
     userFullName: string;
+}
+
+export interface PhotoDisplay {
+    id: number;
+    title: string;
+    username: string;
+    photoBase64: string;
+    status: PhotoStatus;
+    voteCount: number;
 } 

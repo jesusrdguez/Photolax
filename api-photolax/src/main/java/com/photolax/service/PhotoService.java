@@ -88,9 +88,11 @@ public class PhotoService {
             throw new IllegalArgumentException("Contest has reached its maximum number of participants.");
         }
 
-        List<Photo> userPhotosInContest = photoRepository.findByUser_IdAndContest_Id(currentUser.getId(), contest.getId());
-        if (!userPhotosInContest.isEmpty()) {
-            throw new IllegalArgumentException("You have already submitted a photo to this contest.");
+        if (currentUser.getRole() != Role.ADMIN) {
+            List<Photo> userPhotosInContest = photoRepository.findByUser_IdAndContest_Id(currentUser.getId(), contest.getId());
+            if (!userPhotosInContest.isEmpty()) {
+                throw new IllegalArgumentException("You have already submitted a photo to this contest.");
+            }
         }
 
         try {
@@ -201,10 +203,8 @@ public class PhotoService {
             throw new org.springframework.security.access.AccessDeniedException("You do not have permission to delete this photo.");
         }
         
-        // Delete all votes associated with the photo first
         voteRepository.deleteByPhoto_Id(photoId);
         
-        // Then delete the photo
         photoRepository.delete(photo);
     }
     

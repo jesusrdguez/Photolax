@@ -127,7 +127,7 @@ import { ConfirmDialogComponent } from '../shared/confirm-dialog/confirm-dialog.
             background-position: center;
             background-repeat: no-repeat;
             position: relative;
-            color: white;
+            color: #DAD7CD;
             max-height: 100vh;
         }
 
@@ -173,7 +173,7 @@ import { ConfirmDialogComponent } from '../shared/confirm-dialog/confirm-dialog.
 
         .accountTitle {
             margin: 3px 0 2px 20px;
-            font-size: 5vw;
+            font-size: 4vw;
         }
 
         .line {

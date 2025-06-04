@@ -10,6 +10,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { NoAuthGuard } from './guards/no-auth.guard';
 import { AdminGuard } from './guards/admin.guard';
 import { AdminComponent } from './components/admin/admin.component';
+import { RallyPhotosComponent } from './components/rally-photos/rally-photos.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
@@ -34,6 +35,10 @@ export const routes: Routes = [
         path: 'contests/:title/participate',
         component: PhotoUploadComponent,
         canActivate: [AuthGuard]
+    },
+    {
+        path: 'contests/:title/photos',
+        component: RallyPhotosComponent
     },
     {
         path: 'admin',

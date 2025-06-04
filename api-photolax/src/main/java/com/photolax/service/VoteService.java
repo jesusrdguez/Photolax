@@ -1,5 +1,6 @@
 package com.photolax.service;
 
+import com.photolax.dto.VoteDTO;
 import com.photolax.error.PhotoNotFoundException;
 import com.photolax.error.VoteException;
 import com.photolax.model.Photo;
@@ -12,6 +13,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -72,5 +76,20 @@ public class VoteService {
     @Transactional(readOnly = true)
     public boolean hasUserVotedForPhoto(Long userId, Long photoId) {
         return voteRepository.findByUser_IdAndPhoto_Id(userId, photoId).isPresent();
+    }
+
+    @Transactional(readOnly = true)
+    public List<VoteDTO> getUserVotes() {
+        User currentUser = userService.getCurrentAuthenticatedUser();
+        return voteRepository.findByUser_Id(currentUser.getId())
+            .stream()
+            .map(vote -> VoteDTO.builder()
+                .id(vote.getId())
+                .photoId(vote.getPhoto().getId())
+                .username(vote.getUser().getUsername())
+                .voteDate(vote.getVoteDate() != null ? 
+                    vote.getVoteDate().format(DateTimeFormatter.ISO_DATE_TIME) : null)
+                .build())
+            .collect(Collectors.toList());
     }
 } 

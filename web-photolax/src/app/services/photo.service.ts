@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Photo, PhotoCard, PhotoUploadRequest } from '../models/photo.model';
+import { Photo, PhotoCard, PhotoUploadRequest, PhotoDisplay, PhotoStatus } from '../models/photo.model';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -27,6 +27,10 @@ export class PhotoService {
             ? `${environment.apiUrl}/photos?contest_id=${contestId}`
             : `${environment.apiUrl}/photos`;
         return this.http.get<PhotoCard[]>(url);
+    }
+
+    getPhotosByContestAndStatus(contestId: number, status: PhotoStatus = PhotoStatus.APPROVED): Observable<PhotoDisplay[]> {
+        return this.http.get<PhotoDisplay[]>(`${environment.apiUrl}/photos/contest/${contestId}/status/${status}`);
     }
 
     getPhotoById(id: number): Observable<Photo> {
