@@ -112,8 +112,8 @@ import { AuthService } from '../../services/auth.service';
             color: #DAD7CD;
         }
 
-         .top-header {
-            display: flex;
+        .top-header {
+            display: none;
             justify-content: center;
             padding: 60px 0;
         }
@@ -153,9 +153,14 @@ import { AuthService } from '../../services/auth.service';
         }
 
         .adminTitle {
-            margin: 3px 0 2px 20px;
-            font-size: 4vw;
-            color: #DAD7CD;
+            padding-top: 10rem;
+            font-size: 3.5rem;
+            margin-top: 0;
+            margin-left: 20px;
+            margin-bottom: 0;
+            background: linear-gradient(45deg, #DAD7CD, #DAD7CD);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             opacity: 0;
             transform: translateY(20px);
             animation: fadeInUp 0.8s ease forwards;
@@ -173,7 +178,7 @@ import { AuthService } from '../../services/auth.service';
             margin-left: 20px;
             margin-right: 20px;
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             gap: 20px;
             padding: 20px 0;
         }
@@ -218,7 +223,7 @@ import { AuthService } from '../../services/auth.service';
         }
 
         .menu-button {
-            display: none;
+            display: flex;
             position: fixed;
             top: 30px;
             right: 30px;
@@ -233,19 +238,18 @@ import { AuthService } from '../../services/auth.service';
         }
 
         .mobile-menu {
-            display: none;
+            display: flex;
             position: fixed;
             top: 0;
             right: -100%;
             width: 100%;
             height: 100vh;
-            background-color: rgba(0, 0, 0, 0.95);
+            background-color: rgb(0, 0, 0);
             z-index: 15;
             transition: right 0.5s ease;
             flex-direction: column;
             align-items: left;
             padding-top: 100px;
-            padding-left: 40px;
         }
 
         .mobile-menu.show-menu {
@@ -270,7 +274,7 @@ import { AuthService } from '../../services/auth.service';
         .mobile-item {
             color: #DAD7CD;
             text-decoration: none;
-            padding: 15px 0;
+            padding: 5px 0;
             font-size: 30px;
             letter-spacing: 3px;
             text-transform: uppercase;
@@ -283,17 +287,23 @@ import { AuthService } from '../../services/auth.service';
             color: white;
         }
 
-        @media (max-width: 768px) {
+        @media (min-width: 768px) {
+            .photos-grid { grid-template-columns: repeat(auto-fill, minmax(500px, 1fr)); }
+
+            .adminTitle {
+                padding-top: 0;
+            }
+
             .top-header {
-                display: none;
+                display: flex;
             }
 
             .menu-button {
-                display: block;
+                display: none;
             }
 
             .mobile-menu {
-                display: flex;
+                display: none;
             }
         }
     `]

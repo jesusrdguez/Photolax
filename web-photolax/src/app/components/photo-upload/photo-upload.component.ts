@@ -156,7 +156,7 @@ import { MatButtonModule } from '@angular/material/button';
         }
       }
       .top-header {
-        display: flex;
+        display: none;
         justify-content: center;
         padding: 60px 0;
       }
@@ -194,6 +194,7 @@ import { MatButtonModule } from '@angular/material/button';
       .header-item:hover::after {
         width: 100%;
       }
+
       .page-container {
         display: flex;
         flex-direction: column;
@@ -206,19 +207,23 @@ import { MatButtonModule } from '@angular/material/button';
         color: #DAD7CD;
         max-height: 100vh;
       }
+
       .upload-container {
         color: white;
-        max-width: 600px;
-        margin: 2rem auto;
-        padding: 2rem;
+        width: 90%;
+        margin: 2rem auto auto auto;
         background: #1a1d1b;
         border-radius: 8px;
       }
 
       .uploadPhotoTitle {
-        margin: 3px 0 2px 20px;
-        font-size: 4vw;
-        color: #DAD7CD;
+        padding-top: 10rem;
+        font-size: 2.5rem;
+        margin-left: 20px;
+        margin-bottom: 0;
+        background: linear-gradient(45deg, #DAD7CD, #DAD7CD);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
         opacity: 0;
         transform: translateY(20px);
         animation: fadeInUp 0.8s ease forwards;
@@ -233,8 +238,8 @@ import { MatButtonModule } from '@angular/material/button';
       }
 
       .title-input {
-        width: 20em;
-        padding: 0.8rem;
+        width: 90%;
+        padding: 1rem;
         margin-bottom: 1.5rem;
         border: 1px solid #ddd;
         border-radius: 4px;
@@ -242,11 +247,10 @@ import { MatButtonModule } from '@angular/material/button';
       }
 
       .drop-zone {
-        width: 20em;
+        width: 100%;
         color: #dad7cd;
         border: 2px dashed #ccc;
         border-radius: 8px;
-        padding: 2rem;
         text-align: center;
         transition: all 0.3s ease;
         background: #1a1d1b;
@@ -259,12 +263,10 @@ import { MatButtonModule } from '@angular/material/button';
 
       .drop-zone.active {
         border-color: #2196f3;
-        background: #e3f2fd;
       }
 
       .drop-zone.has-file {
         border-style: solid;
-        background: #fff;
       }
 
       .drop-message {
@@ -355,7 +357,7 @@ import { MatButtonModule } from '@angular/material/button';
       }
 
       .menu-button {
-        display: none;
+        display: flex;
         position: fixed;
         top: 30px;
         right: 30px;
@@ -370,19 +372,18 @@ import { MatButtonModule } from '@angular/material/button';
       }
 
       .mobile-menu {
-        display: none;
+        display: flex;
         position: fixed;
         top: 0;
         right: -100%;
         width: 100%;
         height: 100vh;
-        background-color: rgba(0, 0, 0, 0.95);
+        background-color: rgb(0, 0, 0);
         z-index: 15;
         transition: right 0.5s ease;
         flex-direction: column;
         align-items: left;
         padding-top: 100px;
-        padding-left: 40px;
       }
 
       .mobile-menu.show-menu {
@@ -407,7 +408,7 @@ import { MatButtonModule } from '@angular/material/button';
       .mobile-item {
         color: #DAD7CD;
         text-decoration: none;
-        padding: 15px 0;
+        padding: 5px 0;
         font-size: 30px;
         letter-spacing: 3px;
         text-transform: uppercase;
@@ -420,17 +421,28 @@ import { MatButtonModule } from '@angular/material/button';
         color: white;
       }
 
-      @media (max-width: 768px) {
+      @media (min-width: 768px) {
+        .upload-container {
+          max-width: 600px;
+          margin: 2rem auto;
+          padding: 2rem;
+        }
+
+        .uploadPhotoTitle {
+          font-size: 3rem;
+        }
+
         .top-header {
+          display: flex;
+        }
+        .menu-button {
           display: none;
         }
-
-        .menu-button {
-          display: block;
-        }
-
         .mobile-menu {
-          display: flex;
+          display: none;
+        }
+        .uploadPhotoTitle {
+          padding-top: 0;
         }
       }
     `,

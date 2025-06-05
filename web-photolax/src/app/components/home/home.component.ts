@@ -43,7 +43,7 @@ import { AuthService } from '../../services/auth.service';
             </div>
 
             <h1 class="main-logo">PHOTOLAX</h1>
-            <p class="tagline">Photography doesn't just capture a moment, it forever holds the emotion that made it timeless</p>
+            <p class="tagline subTitle">Photography doesn't just capture a moment, it forever holds the emotion that made it timeless</p>
         </div>
     </div>
     `,
@@ -81,21 +81,18 @@ import { AuthService } from '../../services/auth.service';
             display: flex;
             flex-direction: column;
             min-height: 100vh;
-            background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
+            background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
                               url('/assets/homeBackgroundAlternative.webp');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            position: relative;
-            color: white;
             max-height: 100vh;
         }
 
         .top-header {
-            display: flex;
+            display: none;
             justify-content: center;
-            padding: 60px 0;
+            padding: 48px 0;
         }
 
         .header-links {
@@ -133,65 +130,42 @@ import { AuthService } from '../../services/auth.service';
         }
 
         .main-logo {
-            margin-left: 10px;
-            font-weight: lighter;
-            margin-top: 0;
+            margin: 0;
             transition: 1.4s cubic-bezier(0.8, 0, 0, 1);
             position: relative;
             z-index: 6;
-            margin-bottom: 0;
+            font-weight: lighter;
+            font-family: times new roman;
             pointer-events: none;
-            padding-top: 70px;
-            font-size: 15.5vw;
+            padding-top: 7rem;
+            font-size: 18.2vw;
             text-indent: -1vw;
+            transform: translateX(0px);
             color: #DAD7CD;
         }
 
         .tagline {
+            margin: 0;
             transition: clip-path 1.4s cubic-bezier(0.8, 0, 0, 1) 0.6s;
             position: relative;
             pointer-events: none;
-            z-index: 9;
-            font-size: 2.5rem;
-            padding-top: 90px;
+            z-index: 6;
+            clip-path: inset(0%);
             display: block;
-            letter-spacing: 3px;
-            margin-top: 0;
-            width: 100%;
-            color: rgb(11, 12, 10);
-            font-weight: lighter;
-            line-height: 1.5; 
-            margin-left: 20px;
+            width: 80%;
+            padding: 0px 24px;
+            color: rgb(0, 0, 0);
         }
-
-        @media (min-width: 700px) {
-            .tagline {
-                width: 90%;
-                transform: translateY(-12rem);
-            }
-        }
-
-        @media (min-width: 1024px) {
-            .tagline {
-                width: 70%;
-                transform: translateY(-10.5rem);
-            }
-        }
-
-        @media (min-width: 1400px) {
-            .header-item {
-                font-size: 1.5rem;
-            }
-
-            .tagline {
-                width: 80%;
-                transform: translateY(-12rem);
-                font-size: 3rem;
-            }
+        
+        .subTitle {
+            font-weight: 400;
+            text-transform: uppercase;
+            font-size: 2rem;
+            line-height: 100%;
         }
 
         .menu-button {
-            display: none;
+            display: flex;
             position: fixed;
             top: 30px;
             right: 30px;
@@ -206,13 +180,13 @@ import { AuthService } from '../../services/auth.service';
         }
 
         .mobile-menu {
-            display: none;
+            display: flex;
             position: fixed;
             top: 0;
             right: -100%;
             width: 100%;
             height: 100vh;
-            background-color: rgba(0, 0, 0, 0.95);
+            background-color: rgb(0, 0, 0);
             z-index: 15;
             transition: right 0.5s ease;
             flex-direction: column;
@@ -242,7 +216,7 @@ import { AuthService } from '../../services/auth.service';
         .mobile-item {
             color: #DAD7CD;
             text-decoration: none;
-            padding: 10px 0;
+            padding: 5px 0;
             font-size: 30px;
             letter-spacing: 3px;
             text-transform: uppercase;
@@ -255,98 +229,51 @@ import { AuthService } from '../../services/auth.service';
             width: 100%;
         }
 
-        @media (max-width: 1100px) {
-            .main-logo {
-                transition: 1.4s cubic-bezier(0.8, 0, 0, 1);
-                position: relative;
-                z-index: 6;
-                pointer-events: none;
-                padding-top: 6rem;
-                font-family: Canopee, Helvetica, Arial, sans-serif;
-                font-size: 17.2vw;
-                text-indent: -1vw;
-                color: #DAD7CD;
-            }
-
-            .tagline {
-                font-size: 2rem;
-                width: 90%;
-                transform: translateY(-9.5rem);
-            }
-        }
-
-        @media (max-width: 900px) {
-            .main-logo {
-                transition: 1.4s cubic-bezier(0.8, 0, 0, 1);
-                position: relative;
-                z-index: 6;
-                pointer-events: none;
-                padding-top: 6rem;
-                font-family: Canopee, Helvetica, Arial, sans-serif;
-                font-size: 17.2vw;
-                text-indent: -1vw;
-                color: #DAD7CD;
-            }
-
-            .tagline {
-                width: 80%;
-                transform: translateY(-9rem);
-                font-size: 2rem;
-            }
-        }
-
-        @media (max-width: 768px) {
+        @media (min-width: 768px) {
             .top-header {
-                display: none;
-            }
-
-            .menu-button {
-                display: block;
-            }
-
-            .mobile-menu {
                 display: flex;
             }
 
-            .main-logo {
-                transition: 1.4s cubic-bezier(0.8, 0, 0, 1);
-                position: relative;
-                z-index: 6;
-                pointer-events: none;
-                padding-top: 10rem;
-                font-family: Canopee, Helvetica, Arial, sans-serif;
-                font-size: 17.2vw;
-                text-indent: -1vw;
-                color: #DAD7CD;
+            .menu-button {
+                display: none;
+            }
+
+            .mobile-menu {
+                display: none;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .page-container {
+                background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
+                    url('/assets/homeBackgroundAlternative.webp');
             }
 
             .tagline {
                 width: 80%;
-                transform: translateY(-9rem);
-                font-size: 2rem;
+                padding: 0px 24px;
             }
         }
 
-        @media (max-width: 480px) {
-            .main-logo {
-                transition: 1.4s cubic-bezier(0.8, 0, 0, 1);
-                position: relative;
-                z-index: 6;
-                pointer-events: none;
-                padding-top: 15rem;
-                font-family: Canopee, Helvetica, Arial, sans-serif;
-                font-size: 17vw;
-                text-indent: -1vw;
-                color: #DAD7CD;
-            }
+       @media (min-width: 1200px) {
+            .subTitle {
+                font-size: 3rem; 
+            } 
+       }
 
-            .tagline {
-                width: 80%;
-                margin-left: 15px;
-                transform: translateY(-7.5rem);
-                font-size: 1rem;
-            }
-        }
+          @media (min-width: 1200px) {
+            .subTitle {
+                font-size: 3.5rem; 
+            } 
+       }
+    
+        @media (min-width: 2000px) {
+            .subTitle {
+                width: 75%;
+                padding: 0px 6rem;
+                font-size: 5rem; 
+            } 
+       }
     `]
 })
 export class HomeComponent {

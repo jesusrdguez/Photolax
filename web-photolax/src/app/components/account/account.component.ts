@@ -7,7 +7,7 @@ import { AuthService } from '../../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../shared/confirm-dialog/confirm-dialog.component';
-    import { MatIconModule } from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
@@ -153,7 +153,7 @@ import { MatButtonModule } from '@angular/material/button';
         }
 
         .top-header {
-            display: flex;
+            display: none;
             justify-content: center;
             padding: 60px 0;
         }
@@ -193,9 +193,13 @@ import { MatButtonModule } from '@angular/material/button';
         }
 
         .accountTitle {
-            margin: 3px 0 2px 20px;
-            font-size: 4vw;
-            color: #DAD7CD;
+            margin-left: 20px;
+            padding-top: 10rem;
+            font-size: 3.5rem;
+            margin-bottom: 0;
+            background: linear-gradient(45deg, #DAD7CD, #DAD7CD);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             opacity: 0;
             transform: translateY(20px);
             animation: fadeInUp 0.8s ease forwards;
@@ -214,7 +218,7 @@ import { MatButtonModule } from '@angular/material/button';
             padding: 40px;
             border-radius: 8px;
             width: 100%;
-            max-width: 500px;
+            width: 90%;
             margin: 0 auto;
         }
 
@@ -263,7 +267,7 @@ import { MatButtonModule } from '@angular/material/button';
         }
 
         .menu-button {
-            display: none;
+            display: flex;
             position: fixed;
             top: 30px;
             right: 30px;
@@ -278,19 +282,18 @@ import { MatButtonModule } from '@angular/material/button';
         }
 
         .mobile-menu {
-            display: none;
+            display: flex;
             position: fixed;
             top: 0;
             right: -100%;
             width: 100%;
             height: 100vh;
-            background-color: rgba(0, 0, 0, 0.95);
+            background-color: rgb(0, 0, 0);
             z-index: 15;
             transition: right 0.5s ease;
             flex-direction: column;
             align-items: left;
             padding-top: 100px;
-            padding-left: 40px;
         }
 
         .mobile-menu.show-menu {
@@ -315,7 +318,7 @@ import { MatButtonModule } from '@angular/material/button';
         .mobile-item {
             color: #DAD7CD;
             text-decoration: none;
-            padding: 15px 0;
+            padding: 5px 0;
             font-size: 30px;
             letter-spacing: 3px;
             text-transform: uppercase;
@@ -328,17 +331,25 @@ import { MatButtonModule } from '@angular/material/button';
             color: white;
         }
 
-        @media (max-width: 768px) {
+        @media (min-width: 768px) {
+            .account-box {
+                max-width: 500px;
+            }
+
+            .accountTitle {
+                padding-top: 0;
+            }
+
             .top-header {
-                display: none;
+                display: flex;
             }
 
             .menu-button {
-                display: block;
+                display: none;
             }
 
             .mobile-menu {
-                display: flex;
+                display: none;
             }
         }
     `]

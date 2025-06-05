@@ -130,8 +130,8 @@ import { MatButtonModule } from '@angular/material/button';
             overflow-x: hidden;
         }
 
-          .top-header {
-            display: flex;
+        .top-header {
+            display: none;
             justify-content: center;
             padding: 60px 0;
         }
@@ -170,26 +170,21 @@ import { MatButtonModule } from '@angular/material/button';
             width: 100%;
         }
 
-
         .content-wrapper {
             display: flex;            
         }
 
-        .side-image.visible {
-            opacity: 1;
-            transform: translateX(0);
-        }
-
         .rules-content {
+            margin-left: 20px;
             width: 100%;
             color: #DAD7CD;
-            margin-left: 40px;
         }
 
         .rulesTitle {
-            font-size: 4vw;
-            margin: 0;
-            background: linear-gradient(45deg, #DAD7CD, #A3B18A);
+            padding-top: 10rem;
+            font-size: 3.5rem;
+            margin-bottom: 0;
+            background: linear-gradient(45deg, #DAD7CD, #DAD7CD);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             opacity: 0;
@@ -209,6 +204,7 @@ import { MatButtonModule } from '@angular/material/button';
         .rule-section {
             margin-bottom: 60px;
             opacity: 0;
+            width: 80%;
             transform: translateX(-50px);
             transition: all 0.8s ease;
         }
@@ -263,7 +259,6 @@ import { MatButtonModule } from '@angular/material/button';
         .line {
             border-bottom: 2px solid  #DAD7CD;
             width: 90%;
-            margin: 20px 0;
             transform: scaleX(0);
             animation: expandLine 1s ease forwards 0.5s;
         }
@@ -281,56 +276,8 @@ import { MatButtonModule } from '@angular/material/button';
             }
         }
 
-        @media (max-width: 1200px) {
-            .content-wrapper {
-                flex-direction: column;
-            }
-
-            .side-image {
-                width: 100%;
-                height: 40vh;
-                position: relative;
-                margin-bottom: 40px;
-            }
-
-            .rules-content {
-                width: 100%;
-                margin-left: 0;
-            }
-
-            .rulesTitle {
-                font-size: 4rem;
-            }
-
-            .rally-title {
-                font-size: 3rem;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .rules-content {
-                padding: 20px;
-            }
-
-            .rulesTitle {
-                font-size: 3rem;
-            }
-
-            .rally-title {
-                font-size: 2.5rem;
-            }
-
-            .rule-section h3 {
-                font-size: 1.8rem;
-            }
-
-            .rule-section li {
-                font-size: 1.1rem;
-            }
-        }
-
         .menu-button {
-            display: none;
+            display: flex;
             position: fixed;
             top: 30px;
             right: 30px;
@@ -345,19 +292,18 @@ import { MatButtonModule } from '@angular/material/button';
         }
 
         .mobile-menu {
-            display: none;
+            display: flex;
             position: fixed;
             top: 0;
             right: -100%;
             width: 100%;
             height: 100vh;
-            background-color: rgba(0, 0, 0, 0.95);
+            background-color: rgb(0, 0, 0);
             z-index: 15;
             transition: right 0.5s ease;
             flex-direction: column;
             align-items: left;
             padding-top: 100px;
-            padding-left: 40px;
         }
 
         .mobile-menu.show-menu {
@@ -382,7 +328,7 @@ import { MatButtonModule } from '@angular/material/button';
         .mobile-item {
             color: #DAD7CD;
             text-decoration: none;
-            padding: 15px 0;
+            padding: 5px 0;
             font-size: 30px;
             letter-spacing: 3px;
             text-transform: uppercase;
@@ -395,17 +341,21 @@ import { MatButtonModule } from '@angular/material/button';
             color: white;
         }
 
-        @media (max-width: 768px) {
+        @media (min-width: 768px) {
+            .rulesTitle {
+                padding-top: 0;
+            }
+
             .top-header {
-                display: none;
+                display: flex;
             }
 
             .menu-button {
-                display: block;
+                display: none;
             }
 
             .mobile-menu {
-                display: flex;
+                display: none;
             }
         }
     `]

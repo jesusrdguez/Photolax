@@ -51,7 +51,7 @@ import { MatButtonModule } from '@angular/material/button';
                         <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
                             <div class="user-box">
                                 <mat-form-field appearance="fill">
-                                    <mat-label>First Name</mat-label>
+                                    <mat-label class="label">First Name</mat-label>
                                     <input matInput class="boton-input" formControlName="firstName" required>
                                 </mat-form-field>
                                 <div *ngIf="registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched" class="error-message">
@@ -61,7 +61,7 @@ import { MatButtonModule } from '@angular/material/button';
 
                             <div class="user-box">
                                 <mat-form-field appearance="fill">
-                                    <mat-label>Last Name</mat-label>
+                                    <mat-label class="label">Last Name</mat-label>
                                     <input matInput class="boton-input" formControlName="lastName" required>
                                 </mat-form-field>
                                 <div *ngIf="registerForm.get('lastName')?.invalid && registerForm.get('lastName')?.touched" class="error-message">
@@ -71,7 +71,7 @@ import { MatButtonModule } from '@angular/material/button';
 
                             <div class="user-box">
                                 <mat-form-field appearance="fill">
-                                    <mat-label>Username</mat-label>
+                                    <mat-label class="label">Username</mat-label>
                                     <input matInput class="boton-input" formControlName="username" required>
                                 </mat-form-field>
                                 <div *ngIf="registerForm.get('username')?.invalid && registerForm.get('username')?.touched" class="error-message">
@@ -81,7 +81,7 @@ import { MatButtonModule } from '@angular/material/button';
 
                             <div class="user-box">
                                 <mat-form-field appearance="fill">
-                                    <mat-label>Email</mat-label>
+                                    <mat-label class="label">Email</mat-label>
                                     <input matInput class="boton-input" type="email" formControlName="email" required>
                                 </mat-form-field>
                                 <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched" class="error-message">
@@ -92,7 +92,7 @@ import { MatButtonModule } from '@angular/material/button';
 
                             <div class="user-box">
                                 <mat-form-field appearance="fill">
-                                    <mat-label>Password</mat-label>
+                                    <mat-label class="label">Password</mat-label>
                                     <input matInput class="boton-input" type="password" formControlName="password" required>
                                 </mat-form-field>
                                 <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched" class="error-message">
@@ -145,6 +145,7 @@ import { MatButtonModule } from '@angular/material/button';
             75% { transform: translate(-10%, 10%); }
             100% { transform: translate(0, 0); }
         }
+            
         .page-container {
             display: flex;
             flex-direction: column;
@@ -153,12 +154,11 @@ import { MatButtonModule } from '@angular/material/button';
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            font-family: 'Roboto', sans-serif;
             position: relative;
         }
 
         .top-header {
-            display: flex;
+            display: none;
             justify-content: center;
             padding: 60px 0;
             gap: 60px;
@@ -194,15 +194,14 @@ import { MatButtonModule } from '@angular/material/button';
         }
 
         .login-box {
-            //height: 60%;
+            align-content: center;
             position: absolute;
             top: 50%;
             left: 50%;
-            width: 700px;
-            padding: 60px;
+            width: 18rem;
+            padding: 20px;
             transform: translate(-50%, -50%);
             background: rgba(255, 255, 255, 0.49);
-            box-sizing: border-box;
         }
 
         .login-card {
@@ -223,41 +222,29 @@ import { MatButtonModule } from '@angular/material/button';
         .user-box mat-label {
             top: 0;
             left: 0;
-            font-size: 1vw;
             color: black;
             pointer-events: none;
             width: max-content;
             transition: 0.5s;
-        }
-
-        .user-box .mat-focused mat-label,
-        .user-box .mat-form-field.mat-form-field-should-float mat-label {
-            top: -20px;
-            left: 0;
-            color: rgb(0, 0, 0);
-            font-size: 12px;
+            font-size: 1.1rem;
         }
 
         .login-button {
             align-self: center;
-            width: 20%;
-            padding: 10px 20px;
-            color: rgb(255, 255, 255);
-            font-size: 18px;
+            width: 7rem;
+            color: white;
             overflow: hidden;
             transition: .5s;
             margin-top: 20px;
             letter-spacing: 2px;
             background: black;
-            border: none !important;
             border-radius: 0;
-            box-shadow: none !important;
+            font-size: 1.2rem;
+            padding: 1rem 2rem;
         }
 
         .login-button:disabled {
-            background: #555 !important;
-            color: #999 !important;
-            box-shadow: none !important;
+            background-color: grey;
         }
 
         .error-message {
@@ -267,25 +254,8 @@ import { MatButtonModule } from '@angular/material/button';
             margin-bottom: 15px;
         }
 
-        /* Responsividad */
-        @media (max-width: 600px) {
-            .top-header {
-                padding: 20px 0;
-                font-size: 1rem;
-            }
-            
-            .header-item {
-                margin: 0 15px;
-            }
-            
-            .login-box {
-                width: 90%;
-                padding: 30px 20px;
-            }
-        }
-
         .menu-button {
-            display: none;
+            display: flex;
             position: fixed;
             top: 30px;
             right: 30px;
@@ -300,19 +270,18 @@ import { MatButtonModule } from '@angular/material/button';
         }
 
         .mobile-menu {
-            display: none;
+            display: flex;
             position: fixed;
             top: 0;
-            right: -110%;
+            right: -100%;
             width: 100%;
             height: 100vh;
-            background-color: rgba(0, 0, 0, 0.95);
+            background-color: rgb(0, 0, 0);
             z-index: 15;
             transition: right 0.5s ease;
             flex-direction: column;
             align-items: left;
             padding-top: 100px;
-            padding-left: 40px;
         }
 
         .mobile-menu.show-menu {
@@ -337,7 +306,7 @@ import { MatButtonModule } from '@angular/material/button';
         .mobile-item {
             color: #DAD7CD;
             text-decoration: none;
-            padding: 15px 0;
+            padding: 5px 0;
             font-size: 30px;
             letter-spacing: 3px;
             text-transform: uppercase;
@@ -350,18 +319,57 @@ import { MatButtonModule } from '@angular/material/button';
             color: white;
         }
 
-        @media (max-width: 768px) {
+        @media (min-width: 320px) {
+            .login-box { width: 16rem; }
+        }
+
+        @media (min-width: 480px) {
+            .login-box { width: 25rem; }
+        }
+
+        @media (min-width: 768px) {
+            .login-box { width: 30rem; height: 40rem; }
+
             .top-header {
-                display: none;
+                display: flex;
             }
 
             .menu-button {
-                display: block;
+                display: none;
             }
 
             .mobile-menu {
-                display: flex;
+                display: none;
             }
+        }
+
+        @media (min-width: 1024px) {
+            .login-box { width: 35rem; }
+        }
+
+        @media (min-width: 1200px) {
+            .login-box { width: 40rem; }
+        }
+
+        @media (min-width: 2000px) {
+            .login-box {
+                width: 55rem; 
+                height: 50rem; 
+            }
+        
+            .login-box .label {
+                font-size: 1.5rem;
+            }
+
+            .login-box .login-button {
+                width: 9rem;
+                font-size: 1.5rem;
+            }
+
+            .login-box .registerLink {
+                font-size: 1.5rem;
+            }
+
         }
     `]
 })

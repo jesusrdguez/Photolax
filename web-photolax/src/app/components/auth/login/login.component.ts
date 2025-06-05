@@ -51,7 +51,7 @@ import { MatButtonModule } from '@angular/material/button';
                             <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
                                 <div class="user-box">
                                     <mat-form-field appearance="fill">
-                                        <mat-label>Email</mat-label>
+                                        <mat-label class="label">Email</mat-label>
                                         <input matInput class="boton-input" type="email" formControlName="usernameOrEmail" required>
                                     </mat-form-field>
                                     <div *ngIf="loginForm.get('usernameOrEmail')?.invalid && loginForm.get('usernameOrEmail')?.touched" class="error-message">
@@ -62,7 +62,7 @@ import { MatButtonModule } from '@angular/material/button';
 
                                 <div class="user-box">
                                     <mat-form-field appearance="fill">
-                                        <mat-label>Password</mat-label>
+                                        <mat-label class="label">Password</mat-label>
                                         <input matInput type="password" formControlName="password" required>
                                     </mat-form-field>
                                     <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="error-message">
@@ -71,9 +71,7 @@ import { MatButtonModule } from '@angular/material/button';
                                 </div>
                                <div style="display: flex; justify-content: center;">
                                     <button mat-raised-button class="login-button" type="submit" [disabled]="loginForm.invalid">
-                                        <p>
                                         Log in
-                                        </p>
                                     </button>
                                 </div>
                             </form>
@@ -123,12 +121,11 @@ import { MatButtonModule } from '@angular/material/button';
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            font-family: 'Roboto', sans-serif;
             position: relative;
         }
 
         .top-header {
-            display: flex;
+            display: none;
             justify-content: center;
             padding: 60px 0;
             gap: 60px;
@@ -164,14 +161,14 @@ import { MatButtonModule } from '@angular/material/button';
         }
 
         .login-box {
+            align-content: center;
             position: absolute;
             top: 50%;
             left: 50%;
-            width: 700px;
-            padding: 60px;
+            width: 18rem;
+            padding: 20px;
             transform: translate(-50%, -50%);
             background: rgba(255, 255, 255, 0.49);
-            box-sizing: border-box;
         }
 
         .login-card {
@@ -183,9 +180,6 @@ import { MatButtonModule } from '@angular/material/button';
         .user-box mat-label {
             top: 0;
             left: 0;
-            padding: 10px 0;
-            font-size: 1vw;
-            color: black;
             pointer-events: none;
             width: max-content;
             transition: 0.5s;
@@ -193,18 +187,21 @@ import { MatButtonModule } from '@angular/material/button';
 
         .login-button {
             align-self: center;
-            width: 20%;
-            color: white;
-            padding: 10px 20px;
-            font-size: 18px;
+            width: 9rem;
             overflow: hidden;
             transition: .5s;
             margin-top: 20px;
             letter-spacing: 2px;
-            background: black;
-            border: none !important;
+            background-color: black !important;
+            color: white !important;
             border-radius: 0;
-            box-shadow: none !important;
+            font-size: 1.2rem;
+            padding: 1rem 2rem;
+        }
+
+        .login-button:disabled {
+            background-color: grey !important;
+            color: white !important;
         }
 
         .error-message {
@@ -223,29 +220,13 @@ import { MatButtonModule } from '@angular/material/button';
             color: black;
         }
 
-        @media (max-width: 600px) {
-            .top-header {
-                padding: 20px 0;
-                font-size: 1rem;
-            }
-            
-            .header-item {
-                margin: 0 15px;
-            }
-            
-            .login-box {
-                width: 90%;
-                padding: 30px 20px;
-            }
-        }
-
         button {
             margin-top: 16px;
             align-self: center;
         }
 
         .menu-button {
-            display: none;
+            display: flex;
             position: fixed;
             top: 30px;
             right: 30px;
@@ -260,19 +241,18 @@ import { MatButtonModule } from '@angular/material/button';
         }
 
         .mobile-menu {
-            display: none;
+            display: flex;
             position: fixed;
             top: 0;
-            right: -110%;
+            right: -100%;
             width: 100%;
             height: 100vh;
-            background-color: rgba(0, 0, 0, 0.95);
+            background-color: rgb(0, 0, 0);
             z-index: 15;
             transition: right 0.5s ease;
             flex-direction: column;
             align-items: left;
             padding-top: 100px;
-            padding-left: 40px;
         }
 
         .mobile-menu.show-menu {
@@ -297,7 +277,7 @@ import { MatButtonModule } from '@angular/material/button';
         .mobile-item {
             color: #DAD7CD;
             text-decoration: none;
-            padding: 15px 0;
+            padding: 5px 0;
             font-size: 30px;
             letter-spacing: 3px;
             text-transform: uppercase;
@@ -306,22 +286,68 @@ import { MatButtonModule } from '@angular/material/button';
             position: relative;
         }
 
-        .mobile-item:hover {
-            color: white;
+        @media (min-width: 320px) {
+            .login-box {
+                width: 16rem;
+            }
         }
 
-        @media (max-width: 768px) {
+        @media (min-width: 480px) {
+            .login-box {
+                width: 25rem;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .login-box {
+                width: 30rem;
+                height: 25rem;
+            }
+
             .top-header {
-                display: none;
+                display: flex;
             }
 
             .menu-button {
-                display: block;
+                display: none;
             }
 
             .mobile-menu {
-                display: flex;
+                display: none;
             }
+        }
+
+        @media (min-width: 1024px) {
+            .login-box {
+                width: 35rem;
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .login-box {
+                width: 40rem;
+            }
+        }
+
+        @media (min-width: 2000px) {
+            .login-box {
+                width: 50rem; 
+                height: 30rem; 
+            }
+        
+            .login-box .label {
+                font-size: 1.5rem;
+            }
+
+            .login-box .login-button {
+                width: 9rem;
+                font-size: 1.5rem;
+            }
+
+            .login-box .registerLink {
+                font-size: 1.5rem;
+            }
+
         }
     `]
 })
