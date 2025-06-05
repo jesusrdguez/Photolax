@@ -14,7 +14,12 @@ public class MyConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:4200", "http://localhost:8080")
+                        .allowedOrigins(
+                            "http://localhost:4200",
+                            "http://localhost:8080",
+                            "https://photolax.onrender.com",
+                            "https://photolax.vercel.app"
+                        )
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS")
                         .allowedHeaders("*")
                         .allowCredentials(true);
