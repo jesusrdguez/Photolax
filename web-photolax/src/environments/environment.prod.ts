@@ -6,5 +6,5 @@ declare const process: {
 
 export const environment = {
     production: true,
-    apiUrl: process.env['API_URL'] || 'https://photolax.onrender.com/api-photolax'
+    apiUrl: 'https://photolax.onrender.com/api-photolax'
 }; 

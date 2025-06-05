@@ -246,7 +246,7 @@ import { MatButtonModule } from '@angular/material/button';
             max-width: 100%;
             max-height: 90vh;
             object-fit: contain;
-            z-idex: 8;
+            z-index: 8;
         }
 
         .modal-controls {

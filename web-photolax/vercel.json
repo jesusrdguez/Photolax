@@ -1,10 +1,7 @@
 {
   "version": 2,
-  "build": {
-    "env": {
-      "API_URL": "https://photolax.onrender.com/api-photolax"
-    }
-  },
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist/web-photolax",
   "routes": [
     {
       "handle": "filesystem"
