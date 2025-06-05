@@ -99,9 +99,7 @@ import { MatButtonModule } from '@angular/material/button';
             margin: 0;
             position: relative;
             z-index: 999;
-            overflow-x: hidden;
-            overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
+            overflow: hidden;
         }
 
         .noise-overlay::before {
@@ -131,6 +129,7 @@ import { MatButtonModule } from '@angular/material/button';
             background-color: #1A1D1B;
             color: #DAD7CD;
             padding: 20px;
+            min-height: 100vh;
         }
 
         .top-header {

@@ -71,8 +71,10 @@ import { MatButtonModule } from '@angular/material/button';
   styles: [
     `
       .noise-overlay {
+        padding: 0;
+        margin: 0;
         position: relative;
-        z-index: 99;
+        z-index: 999;
         overflow: hidden;
       }
 
@@ -150,6 +152,8 @@ import { MatButtonModule } from '@angular/material/button';
         }
 
       .rallies-container {
+        padding: 0;
+        margin: 0;
         display: flex;
         flex-direction: column;
         background-color: #1a1d1b;
@@ -158,7 +162,6 @@ import { MatButtonModule } from '@angular/material/button';
         background-repeat: no-repeat;
         position: relative;
         color: #DAD7CD;
-        max-height: 100vh;
         min-height: 100vh;
       }
 

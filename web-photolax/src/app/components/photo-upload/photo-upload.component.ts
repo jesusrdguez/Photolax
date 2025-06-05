@@ -567,8 +567,8 @@ export class PhotoUploadComponent implements OnInit {
 
     try {
       const dimensions = await this.getImageDimensions(file);
-      if (dimensions.width > 2048 || dimensions.height > 2048) {
-        this.errorMessage = 'Image dimensions cannot exceed 2048x2048 pixels';
+      if (dimensions.width > 4000 || dimensions.height > 4000) {
+        this.errorMessage = 'Image dimensions cannot exceed 4k quality';
         return;
       }
     } catch (error) {
