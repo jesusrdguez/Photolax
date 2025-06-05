@@ -1,7 +1,8 @@
 # Build stage
 FROM maven:3.8.4-openjdk-17-slim AS build
 WORKDIR /app
-COPY . .
+COPY api-photolax/pom.xml .
+COPY api-photolax/src ./src
 RUN mvn clean package -DskipTests
 
 # Run stage
