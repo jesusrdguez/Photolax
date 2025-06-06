@@ -15,11 +15,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { LoaderComponent } from '../../shared/components/loader/loader.component';
 import { MenuButtonComponent } from '../../shared/components/menu-button/menu-button.component';
+import { VoteButtonComponent } from '../../shared/components/vote-button/vote-button.component';
 
 @Component({
     selector: 'app-rally-photos',
     standalone: true,
-    imports: [CommonModule, MaterialModule, RouterModule, MatIconModule, MatButtonModule, LoaderComponent, MenuButtonComponent],
+    imports: [CommonModule, MaterialModule, RouterModule, MatIconModule, MatButtonModule, LoaderComponent, MenuButtonComponent, VoteButtonComponent],
     template: `
         <div class="noise-overlay">
             <div class="rally-container">
@@ -62,7 +63,9 @@ import { MenuButtonComponent } from '../../shared/components/menu-button/menu-bu
                              [alt]="photo.title"
                              class="photo-image">
                         <div *ngIf="hasVoted(photo.id)" class="voted-indicator">
-                            <mat-icon>favorite</mat-icon>
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                            </svg>
                         </div>
                     </div>
                 </div>
@@ -74,13 +77,11 @@ import { MenuButtonComponent } from '../../shared/components/menu-button/menu-bu
                              class="enlarged-photo">
                         
                         <div class="modal-controls">
-                            <button mat-icon-button 
-                                    class="vote-button" 
-                                    [disabled]="!canVote || hasVoted(selectedPhoto.id)"
-                                    (click)="voteForPhoto($event, selectedPhoto.id)">
-                                <mat-icon>{{ hasVoted(selectedPhoto.id) ? 'favorite' : 'favorite_border' }}</mat-icon>
-                            </button>
-                            <button mat-raised-button color="primary" (click)="closePhoto($event)">CLOSE</button>
+                            <app-vote-button 
+                                [isVoted]="hasVoted(selectedPhoto.id)"
+                                (voteChange)="onVoteChange($event, selectedPhoto.id)"
+                                *ngIf="canVote">
+                            </app-vote-button>
                         </div>
                     </div>
                 </div>
@@ -214,11 +215,22 @@ import { MenuButtonComponent } from '../../shared/components/menu-button/menu-bu
             right: 10px;
             background-color: rgba(0, 0, 0, 0.6);
             border-radius: 50%;
-            padding: 5px;
+            padding: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
         }
 
-        .voted-indicator mat-icon {
-            color:rgb(255, 207, 64);
+        .voted-indicator:hover {
+            transform: scale(1.1);
+        }
+
+        .voted-indicator svg {
+            width: 24px;
+            height: 24px;
+            fill: rgb(255, 91, 137);
+            filter: drop-shadow(0 0 2px rgba(255, 91, 137, 0.5));
         }
 
         .photo-modal {
@@ -441,9 +453,7 @@ export class RallyPhotosComponent implements OnInit {
         return this.votedPhotoIds.has(photoId);
     }
 
-    voteForPhoto(event: MouseEvent, photoId: number) {
-        event.stopPropagation();
-
+    onVoteChange(voted: boolean, photoId: number) {
         if (!this.authService.isLoggedIn()) {
             this.toastr.warning('Please log in to vote for photos');
             return;

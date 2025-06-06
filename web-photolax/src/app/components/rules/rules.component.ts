@@ -339,6 +339,7 @@ export class RulesComponent implements OnInit {
     }
 
     ngOnInit() {
+        document.body.style.overflow = '';
         this.setupScrollAnimation();
     }
 
