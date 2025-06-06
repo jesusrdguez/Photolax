@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, ElementRef, ViewChild, AfterViewInit, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
@@ -357,6 +357,10 @@ export class RalliesComponent implements AfterViewInit {
   private startX = 0;
   private scrollLeft = 0;
   isMenuOpen = false;
+
+  ngOnInit() {
+    document.body.style.overflow = '';
+  }
 
   ngAfterViewInit(): void {
     const el = this.ralliesContent.nativeElement as HTMLElement;

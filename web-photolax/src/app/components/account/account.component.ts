@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
@@ -112,8 +112,10 @@ import { MatButtonModule } from '@angular/material/button';
     `,
     styles: [`        
         .noise-overlay {
+            padding: 0;
+            margin: 0;
             position: relative;
-            z-index: 99;
+            z-index: 999;
             overflow: hidden;
         }
 
@@ -141,14 +143,10 @@ import { MatButtonModule } from '@angular/material/button';
         }
 
         .page-container {
-            display: flex;
-            flex-direction: column;            
+            padding: 0;
+            margin: 0;
             min-height: 100vh;
             background-color: #1A1D1B;
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            position: relative;
             color: #DAD7CD;
         }
 
@@ -197,6 +195,7 @@ import { MatButtonModule } from '@angular/material/button';
             padding-top: 10rem;
             font-size: 3.5rem;
             margin-bottom: 0;
+            margin-top: 0;
             background: linear-gradient(45deg, #DAD7CD, #DAD7CD);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -385,6 +384,7 @@ export class AccountComponent implements OnInit {
     }
 
     ngOnInit() {
+        document.body.style.overflow = '';
         this.loadUserData();
     }
 

@@ -96,8 +96,10 @@ import { MatButtonModule } from '@angular/material/button';
     `,
     styles: [`
         .noise-overlay {
+            padding: 0; 
+            margin: 0;
             position: relative;
-            z-index: 99;
+            z-index: 999;
             overflow: hidden;
         }
 
@@ -125,9 +127,10 @@ import { MatButtonModule } from '@angular/material/button';
         }
 
         .rules-container {
+            margin: 0;
+            padding: 0;
             min-height: 100vh;
             background-color: #1A1D1B;
-            overflow-x: hidden;
         }
 
         .top-header {
@@ -241,7 +244,7 @@ import { MatButtonModule } from '@angular/material/button';
         }
 
         .rule-section li::before {
-            content: "→";
+            content: "-";
             position: absolute;
             left: 0;
             color: #A3B18A;
@@ -375,6 +378,7 @@ export class RulesComponent implements OnInit {
     }
 
     ngOnInit() {
+        document.body.style.overflow = '';
         this.setupScrollAnimation();
     }
 

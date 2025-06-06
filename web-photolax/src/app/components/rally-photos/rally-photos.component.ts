@@ -393,6 +393,7 @@ export class RallyPhotosComponent implements OnInit {
     }
 
     ngOnInit() {
+        document.body.style.overflow = '';
         this.route.params.pipe(
             switchMap(params => this.contestService.getContestByTitle(params['title'])),
             switchMap(contest => {
