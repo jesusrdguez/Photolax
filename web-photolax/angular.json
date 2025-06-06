@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/web-photolax",
+            "outputPath": "dist/web-photolax/browser",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
