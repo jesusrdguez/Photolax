@@ -9,6 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../shared/confirm-dialog/confirm-dialog.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { MenuButtonComponent } from '../../shared/components/menu-button/menu-button.component';
 
 @Component({
     selector: 'app-account',
@@ -19,7 +20,8 @@ import { MatButtonModule } from '@angular/material/button';
         MaterialModule,
         RouterModule,
         MatIconModule,
-        MatButtonModule
+        MatButtonModule,
+        MenuButtonComponent
     ],
     template: `
     <div class="noise-overlay">
@@ -35,16 +37,9 @@ import { MatButtonModule } from '@angular/material/button';
                 </div>
             </div>
 
-            <button mat-icon-button class="menu-button" (click)="toggleMenu()">
-                <mat-icon>menu</mat-icon>
-            </button>
+            <app-menu-button (menuToggled)="toggleMenu($event)"></app-menu-button>
 
             <div class="mobile-menu" [class.show-menu]="isMenuOpen">
-                <div class="mobile-header">
-                    <button mat-icon-button class="close-button" (click)="toggleMenu()">
-                        <mat-icon>close</mat-icon>
-                    </button>
-                </div>
                 <a routerLink="/" class="mobile-item text-xl font-medium">HOME</a>
                 <a routerLink="/rules" class="mobile-item text-xl font-medium">RULES</a>
                 <a routerLink="/rallies" class="mobile-item text-xl font-medium">RALLIES</a>
@@ -191,8 +186,8 @@ import { MatButtonModule } from '@angular/material/button';
         }
 
         .accountTitle {
-            margin-left: 20px;
             padding-top: 10rem;
+            margin-left: 20px;
             font-size: 3.5rem;
             margin-bottom: 0;
             margin-top: 0;
@@ -347,7 +342,7 @@ import { MatButtonModule } from '@angular/material/button';
                 display: none;
             }
 
-            .mobile-menu {
+            app-menu-button {
                 display: none;
             }
         }
@@ -374,8 +369,8 @@ export class AccountComponent implements OnInit {
         });
     }
 
-    toggleMenu() {
-        this.isMenuOpen = !this.isMenuOpen;
+    toggleMenu(isOpen: boolean) {
+        this.isMenuOpen = isOpen;
         if (this.isMenuOpen) {
             document.body.style.overflow = 'hidden';
         } else {

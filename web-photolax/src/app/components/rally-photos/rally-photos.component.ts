@@ -13,11 +13,13 @@ import { switchMap, tap, map } from 'rxjs/operators';
 import { Observable, of, forkJoin } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { LoaderComponent } from '../../shared/components/loader/loader.component';
+import { MenuButtonComponent } from '../../shared/components/menu-button/menu-button.component';
 
 @Component({
     selector: 'app-rally-photos',
     standalone: true,
-    imports: [CommonModule, MaterialModule, RouterModule, MatIconModule, MatButtonModule],
+    imports: [CommonModule, MaterialModule, RouterModule, MatIconModule, MatButtonModule, LoaderComponent, MenuButtonComponent],
     template: `
         <div class="noise-overlay">
             <div class="rally-container">
@@ -32,15 +34,10 @@ import { MatButtonModule } from '@angular/material/button';
                     </div>
                 </div>
 
-                <button mat-icon-button class="menu-button" (click)="toggleMenu()">
-                    <mat-icon>menu</mat-icon>
-                </button>
+                <app-menu-button (menuToggled)="toggleMenu($event)"></app-menu-button>
 
                 <div class="mobile-menu" [class.show-menu]="isMenuOpen">
                     <div class="mobile-header">
-                        <button mat-icon-button class="close-button" (click)="toggleMenu()">
-                            <mat-icon>close</mat-icon>
-                        </button>
                     </div>
                     <a routerLink="/" class="mobile-item text-xl font-medium">HOME</a>
                     <a routerLink="/rules" class="mobile-item text-xl font-medium">RULES</a>
@@ -57,6 +54,7 @@ import { MatButtonModule } from '@angular/material/button';
                 </div>
                 
                 <div class="photos-grid">
+                    <app-loader *ngIf="isLoading"></app-loader>
                     <div *ngFor="let photo of photos" 
                          class="photo-item"
                          (click)="openPhoto(photo)">
@@ -326,11 +324,6 @@ import { MatButtonModule } from '@angular/material/button';
             right: 30px;
         }
 
-        .close-button {
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 0;
-        }
-
         .close-button mat-icon {
             color: white;
         }
@@ -354,8 +347,9 @@ import { MatButtonModule } from '@angular/material/button';
         @media (min-width: 768px) {
             .top-header { display: flex; }
             .menu-button { display: none; }
-            .mobile-menu { display: none; }
-            .rallyTitle { padding-top: 0; font-size: 5rem }
+            app-menu-button {
+                display: none;
+            }            .rallyTitle { padding-top: 0; font-size: 5rem }
             .photo-item { width: 100% }
             .photos-grid { grid-template-columns: repeat(auto-fill, minmax(500px, 1fr)); }
         }
@@ -373,6 +367,7 @@ export class RallyPhotosComponent implements OnInit {
     remainingVotes: number = 3;
     canVote: boolean = false;
     isMenuOpen = false;
+    isLoading = false;
 
     constructor(
         private route: ActivatedRoute,
@@ -383,8 +378,8 @@ export class RallyPhotosComponent implements OnInit {
         private toastr: ToastrService
     ) {}
 
-    toggleMenu() {
-        this.isMenuOpen = !this.isMenuOpen;
+    toggleMenu(isOpen: boolean) {
+        this.isMenuOpen = isOpen;
         if (this.isMenuOpen) {
             document.body.style.overflow = 'hidden';
         } else {
@@ -394,6 +389,7 @@ export class RallyPhotosComponent implements OnInit {
 
     ngOnInit() {
         document.body.style.overflow = '';
+        this.isLoading = true;
         this.route.params.pipe(
             switchMap(params => this.contestService.getContestByTitle(params['title'])),
             switchMap(contest => {
@@ -418,10 +414,12 @@ export class RallyPhotosComponent implements OnInit {
                 this.remainingVotes = 3 - votesInThisContest.length;
                 
                 this.canVote = this.authService.isLoggedIn() && this.remainingVotes > 0;
+                this.isLoading = false;
             },
             error: (error) => {
                 console.error('Error loading rally photos:', error);
                 this.toastr.error('Error loading photos');
+                this.isLoading = false;
             }
         });
     }

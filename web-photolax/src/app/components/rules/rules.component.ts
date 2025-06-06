@@ -4,11 +4,12 @@ import { AuthService } from '../../services/auth.service';
 import { RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { MenuButtonComponent } from '../../shared/components/menu-button/menu-button.component';
 
 @Component({
     selector: 'app-rules',
     standalone: true,
-    imports: [CommonModule, RouterModule, MatIconModule, MatButtonModule],
+    imports: [CommonModule, RouterModule, MatIconModule, MatButtonModule, MenuButtonComponent],
     template: `
     <div class="noise-overlay">
         <div class="rules-container">
@@ -23,16 +24,9 @@ import { MatButtonModule } from '@angular/material/button';
                 </div>
             </div>
 
-            <button mat-icon-button class="menu-button" (click)="toggleMenu()">
-                <mat-icon>menu</mat-icon>
-            </button>
+            <app-menu-button (menuToggled)="toggleMenu($event)"></app-menu-button>
 
             <div class="mobile-menu" [class.show-menu]="isMenuOpen">
-                <div class="mobile-header">
-                    <button mat-icon-button class="close-button" (click)="toggleMenu()">
-                        <mat-icon>close</mat-icon>
-                    </button>
-                </div>
                 <a routerLink="/" class="mobile-item text-xl font-medium">HOME</a>
                 <a routerLink="/rules" class="mobile-item text-xl font-medium">RULES</a>
                 <a routerLink="/rallies" class="mobile-item text-xl font-medium">RALLIES</a>
@@ -184,6 +178,7 @@ import { MatButtonModule } from '@angular/material/button';
         }
 
         .rulesTitle {
+            margin-top: 0;
             padding-top: 10rem;
             font-size: 3.5rem;
             margin-bottom: 0;
@@ -279,21 +274,6 @@ import { MatButtonModule } from '@angular/material/button';
             }
         }
 
-        .menu-button {
-            display: flex;
-            position: fixed;
-            top: 30px;
-            right: 30px;
-            z-index: 1000;
-            background-color: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(5px);
-            border-radius: 0;
-        }
-
-        .menu-button mat-icon {
-            color: white;
-        }
-
         .mobile-menu {
             display: flex;
             position: fixed;
@@ -313,21 +293,6 @@ import { MatButtonModule } from '@angular/material/button';
             right: 0;
         }
 
-        .mobile-header {
-            position: absolute;
-            top: 30px;
-            right: 30px;
-        }
-
-        .close-button {
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 0;
-        }
-
-        .close-button mat-icon {
-            color: white;
-        }
-
         .mobile-item {
             color: #DAD7CD;
             text-decoration: none;
@@ -340,8 +305,8 @@ import { MatButtonModule } from '@angular/material/button';
             position: relative;
         }
 
-        .mobile-item:hover {
-            color: white;
+        .mobile-item:hover::after {
+            width: 100%;
         }
 
         @media (min-width: 768px) {
@@ -353,11 +318,7 @@ import { MatButtonModule } from '@angular/material/button';
                 display: flex;
             }
 
-            .menu-button {
-                display: none;
-            }
-
-            .mobile-menu {
+            app-menu-button {
                 display: none;
             }
         }
@@ -368,8 +329,8 @@ export class RulesComponent implements OnInit {
 
     constructor(public authService: AuthService) {}
 
-    toggleMenu() {
-        this.isMenuOpen = !this.isMenuOpen;
+    toggleMenu(isOpen: boolean) {
+        this.isMenuOpen = isOpen;
         if (this.isMenuOpen) {
             document.body.style.overflow = 'hidden';
         } else {
@@ -378,7 +339,6 @@ export class RulesComponent implements OnInit {
     }
 
     ngOnInit() {
-        document.body.style.overflow = '';
         this.setupScrollAnimation();
     }
 

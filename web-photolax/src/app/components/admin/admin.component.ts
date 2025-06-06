@@ -8,11 +8,23 @@ import { MatDialog } from '@angular/material/dialog';
 import { DeletePhotoDialogComponent } from './delete-photo-dialog/delete-photo-dialog.component';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { LoaderComponent } from '../../shared/components/loader/loader.component';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MenuButtonComponent } from '../../shared/components/menu-button/menu-button.component';
 
 @Component({
     selector: 'app-admin',
     standalone: true,
-    imports: [CommonModule, MaterialModule, RouterModule],
+    imports: [
+        CommonModule,
+        MaterialModule,
+        RouterModule,
+        LoaderComponent,
+        MatIconModule,
+        MatButtonModule,
+        MenuButtonComponent
+    ],
     template: `
     <div class="noise-overlay">
         <div class="admin-container">
@@ -27,16 +39,9 @@ import { AuthService } from '../../services/auth.service';
                 </div>
             </div>
 
-            <button mat-icon-button class="menu-button" (click)="toggleMenu()">
-                <mat-icon>menu</mat-icon>
-            </button>
+            <app-menu-button (menuToggled)="toggleMenu($event)"></app-menu-button>
 
             <div class="mobile-menu" [class.show-menu]="isMenuOpen">
-                <div class="mobile-header">
-                    <button mat-icon-button class="close-button" (click)="toggleMenu()">
-                        <mat-icon>close</mat-icon>
-                    </button>
-                </div>
                 <a routerLink="/" class="mobile-item text-xl font-medium">HOME</a>
                 <a routerLink="/rules" class="mobile-item text-xl font-medium">RULES</a>
                 <a routerLink="/rallies" class="mobile-item text-xl font-medium">RALLIES</a>
@@ -49,6 +54,7 @@ import { AuthService } from '../../services/auth.service';
             <div class="line"></div>    
             <div class="account-box">          
               <div class="photos-grid">
+                <app-loader *ngIf="isLoading"></app-loader>
                 <div *ngFor="let photo of photos" class="photo-card">
                     <img [src]="photo.photoBase64 ? 'data:image/jpeg;base64,' + photo.photoBase64 : ''" [alt]="photo.title">
                     <div class="photo-info">
@@ -77,7 +83,7 @@ import { AuthService } from '../../services/auth.service';
             padding: 0;
             margin: 0;
             position: relative;
-            z-index: 999;
+            z-index: 9999;
             overflow: hidden;
         }
 
@@ -93,7 +99,7 @@ import { AuthService } from '../../services/auth.service';
             position: absolute;
             top: -50%;
             left: -50%;
-            z-index: 99;
+            z-index: 9999;
         }
 
         @keyframes noise-animation {
@@ -302,7 +308,7 @@ import { AuthService } from '../../services/auth.service';
                 display: none;
             }
 
-            .mobile-menu {
+            app-menu-button {
                 display: none;
             }
         }
@@ -312,6 +318,7 @@ export class AdminComponent implements OnInit {
     photos: Photo[] = [];
     photoStatuses = Object.values(PhotoStatus);
     isMenuOpen = false;
+    isLoading = false;
 
     constructor(
         private photoService: PhotoService,
@@ -320,8 +327,8 @@ export class AdminComponent implements OnInit {
         public authService: AuthService
     ) {}
 
-    toggleMenu() {
-        this.isMenuOpen = !this.isMenuOpen;
+    toggleMenu(event: boolean) {
+        this.isMenuOpen = event;
         if (this.isMenuOpen) {
             document.body.style.overflow = 'hidden';
         } else {
@@ -334,13 +341,16 @@ export class AdminComponent implements OnInit {
     }
 
     loadPhotos() {
+        this.isLoading = true;
         this.photoService.getAllPhotosAdmin().subscribe({
             next: (photos: Photo[]) => {
                 this.photos = photos;
+                this.isLoading = false;
             },
             error: (error: any) => {
                 console.error('Error loading photos:', error);
                 this.toastr.error('Error loading photos');
+                this.isLoading = false;
             }
         });
     }
@@ -377,6 +387,7 @@ export class AdminComponent implements OnInit {
         this.photoService.deletePhoto(id).subscribe({
             next: () => {
                 this.toastr.success('Photo deleted successfully');
+                this.photos = this.photos.filter(photo => photo.id !== id);
                 this.loadPhotos();
             },
             error: (error) => {

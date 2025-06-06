@@ -312,7 +312,7 @@ import { MatButtonModule } from '@angular/material/button';
                 display: none;
             }
 
-            .mobile-menu {
+            app-menu-button {
                 display: none;
             }
         }

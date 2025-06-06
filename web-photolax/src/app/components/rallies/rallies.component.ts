@@ -5,6 +5,8 @@ import { AuthService } from '../../services/auth.service';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 
+import { MenuButtonComponent } from '../../shared/components/menu-button/menu-button.component';
+
 @Component({
   selector: 'app-rallies',
   standalone: true,
@@ -12,7 +14,8 @@ import { MatButtonModule } from '@angular/material/button';
     CommonModule,
     RouterModule,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+    MenuButtonComponent
   ],
   template: `
     <div class="noise-overlay">
@@ -28,16 +31,9 @@ import { MatButtonModule } from '@angular/material/button';
           </div>
         </div>
 
-        <button mat-icon-button class="menu-button" (click)="toggleMenu()">
-          <mat-icon>menu</mat-icon>
-        </button>
+        <app-menu-button (menuToggled)="toggleMenu($event)"></app-menu-button>
 
         <div class="mobile-menu" [class.show-menu]="isMenuOpen">
-          <div class="mobile-header">
-            <button mat-icon-button class="close-button" (click)="toggleMenu()">
-              <mat-icon>close</mat-icon>
-            </button>
-          </div>
           <a routerLink="/" class="mobile-item text-xl font-medium">HOME</a>
           <a routerLink="/rules" class="mobile-item text-xl font-medium">RULES</a>
           <a routerLink="/rallies" class="mobile-item text-xl font-medium">RALLIES</a>
@@ -162,10 +158,12 @@ import { MatButtonModule } from '@angular/material/button';
         background-repeat: no-repeat;
         position: relative;
         color: #DAD7CD;
+        max-height: 100vh;
         min-height: 100vh;
       }
 
       .ralliesTitle {
+          margin-top: 0;
           padding-top: 10rem;
           font-size: 3.5rem;
           margin-left: 20px;
@@ -190,7 +188,7 @@ import { MatButtonModule } from '@angular/material/button';
         display: flex;
         align-items: center;
         margin-left: 20px;
-        gap: 80px;
+        gap: 40px;
         width: 100%;
         overflow-x: auto;
         scroll-snap-type: x mandatory;
@@ -204,9 +202,9 @@ import { MatButtonModule } from '@angular/material/button';
       }
 
       .rallies-content-item { 
-        width: 500px;
+        width: 80vw;
         margin-top: 20px;
-        height: 65vh;
+        height: 50vh;
         position: relative;
         overflow: hidden;
         flex: 0 0 auto;
@@ -237,7 +235,7 @@ import { MatButtonModule } from '@angular/material/button';
         font-weight: bold;
         left: 0px;
         color: #DAD7CD;
-        font-size: 4rem;
+        font-size: 3rem;
         z-index: 2;
       }
 
@@ -256,10 +254,28 @@ import { MatButtonModule } from '@angular/material/button';
       }
 
       @media (min-width: 768px) {
+        .rallies-content {
+          gap: 80px;
+        }
+
+        .rallies-content-item {
+          width: 500px;
+          margin-top: 20px;
+          height: 65vh;
+          position: relative;
+          overflow: hidden;
+          flex: 0 0 auto;
+          scroll-snap-align: start;
+        }
+
+        .rallies-content-item p {
+          font-size: 4rem;
+        }
+
         .top-header {
           display: flex;
         }
-        .menu-button {
+        app-menu-button {
           display: none;
         }
         .mobile-menu {
@@ -393,8 +409,8 @@ export class RalliesComponent implements AfterViewInit {
 
   constructor(public authService: AuthService) {}
 
-  toggleMenu() {
-    this.isMenuOpen = !this.isMenuOpen;
+  toggleMenu(isOpen: boolean) {
+    this.isMenuOpen = isOpen;
     if (this.isMenuOpen) {
       document.body.style.overflow = 'hidden';
     } else {

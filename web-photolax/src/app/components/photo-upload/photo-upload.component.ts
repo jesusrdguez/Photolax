@@ -10,42 +10,30 @@ import { PhotoUploadRequest } from '../../models/photo.model';
 import { ToastrService } from 'ngx-toastr';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { LoaderComponent } from '../../shared/components/loader/loader.component';
+import { MenuButtonComponent } from '../../shared/components/menu-button/menu-button.component';
 
 @Component({
   selector: 'app-photo-upload',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule, MatIconModule, MatButtonModule],
+  imports: [CommonModule, FormsModule, RouterModule, MatIconModule, MatButtonModule, LoaderComponent, MenuButtonComponent],
   template: `
     <div class="noise-overlay">
       <div class="page-container">
         <div class="top-header">
           <div class="header-links">
             <a routerLink="/" class="header-item">HOME</a>
-            <a routerLink="/rules" class="header-item text-lg font-medium"
-              >RULES</a
-            >
-            <a routerLink="/rallies" class="header-item text-lg font-medium"
-              >RALLIES</a
-            >
-            <a
-              [routerLink]="authService.isLoggedIn() ? '/account' : '/login'"
-              class="header-item text-lg font-medium"
-            >
+            <a routerLink="/rules" class="header-item text-lg font-medium">RULES</a>
+            <a routerLink="/rallies" class="header-item text-lg font-medium">RALLIES</a>
+            <a [routerLink]="authService.isLoggedIn() ? '/account' : '/login'" class="header-item text-lg font-medium">
               {{ authService.isLoggedIn() ? 'ACCOUNT' : 'LOGIN' }}
             </a>
           </div>
         </div>
 
-        <button mat-icon-button class="menu-button" (click)="toggleMenu()">
-          <mat-icon>menu</mat-icon>
-        </button>
+        <app-menu-button (menuToggled)="toggleMenu($event)"></app-menu-button>
 
         <div class="mobile-menu" [class.show-menu]="isMenuOpen">
-          <div class="mobile-header">
-            <button mat-icon-button class="close-button" (click)="toggleMenu()">
-              <mat-icon>close</mat-icon>
-            </button>
-          </div>
           <a routerLink="/" class="mobile-item text-xl font-medium">HOME</a>
           <a routerLink="/rules" class="mobile-item text-xl font-medium">RULES</a>
           <a routerLink="/rallies" class="mobile-item text-xl font-medium">RALLIES</a>
@@ -57,6 +45,7 @@ import { MatButtonModule } from '@angular/material/button';
         <h1 class="uploadPhotoTitle reveal-text">PARTICIPATE</h1>
         <div class="line"></div>
         <div class="upload-container">
+          <app-loader *ngIf="isUploading"></app-loader>
           <div class="form-group">
             <input
               type="text"
@@ -205,7 +194,6 @@ import { MatButtonModule } from '@angular/material/button';
         background-repeat: no-repeat;
         position: relative;
         color: #DAD7CD;
-        max-height: 100vh;
       }
 
       .upload-container {
@@ -299,6 +287,7 @@ import { MatButtonModule } from '@angular/material/button';
       }
 
       .preview img {
+        margin-top: 5px;
         max-width: 100%;
         max-height: 300px;
         object-fit: contain;
@@ -313,6 +302,7 @@ import { MatButtonModule } from '@angular/material/button';
         border-radius: 4px;
         cursor: pointer;
         transition: background 0.3s ease;
+        margin-bottom: 5px;
       }
 
       .remove-button:hover {
@@ -438,8 +428,8 @@ import { MatButtonModule } from '@angular/material/button';
         .menu-button {
           display: none;
         }
-        .mobile-menu {
-          display: none;
+        app-menu-button {
+            display: none;
         }
         .uploadPhotoTitle {
           padding-top: 0;
@@ -468,13 +458,13 @@ export class PhotoUploadComponent implements OnInit {
     private toastr: ToastrService
   ) {}
 
-  toggleMenu() {
-    this.isMenuOpen = !this.isMenuOpen;
-    if (this.isMenuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
+  toggleMenu(isOpen: boolean) {
+      this.isMenuOpen = isOpen;
+      if (this.isMenuOpen) {
+        document.body.style.overflow = 'hidden';
+      } else {
+        document.body.style.overflow = '';
+      }
   }
 
   ngOnInit() {
@@ -567,8 +557,8 @@ export class PhotoUploadComponent implements OnInit {
 
     try {
       const dimensions = await this.getImageDimensions(file);
-      if (dimensions.width > 4000 || dimensions.height > 4000) {
-        this.errorMessage = 'Image dimensions cannot exceed 4k quality';
+      if (dimensions.width > 8000 || dimensions.height > 8000) {
+        this.errorMessage = 'Image dimensions exceeded';
         return;
       }
     } catch (error) {

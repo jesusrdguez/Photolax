@@ -5,11 +5,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MaterialModule } from '../../shared/material.module';
 import { AuthService } from '../../services/auth.service';
+import { MenuButtonComponent } from '../../shared/components/menu-button/menu-button.component';
 
 @Component({
     selector: 'app-home',
     standalone: true,
-    imports: [CommonModule, RouterModule, MaterialModule, MatIconModule, MatButtonModule],
+    imports: [CommonModule, RouterModule, MaterialModule, MatIconModule, MatButtonModule, MenuButtonComponent],
     template: `
     <div class="noise-overlay">
         <div class="page-container">
@@ -24,16 +25,9 @@ import { AuthService } from '../../services/auth.service';
                 </div>
             </div>
 
-            <button mat-icon-button class="menu-button" (click)="toggleMenu()">
-                <mat-icon>menu</mat-icon>
-            </button>
+            <app-menu-button (menuToggled)="toggleMenu($event)"></app-menu-button>
 
             <div class="mobile-menu" [class.show-menu]="isMenuOpen">
-                <div class="mobile-header">
-                    <button mat-icon-button class="close-button" (click)="toggleMenu()">
-                        <mat-icon>close</mat-icon>
-                    </button>
-                </div>
                 <a routerLink="/" class="mobile-item text-xl font-medium">HOME</a>
                 <a routerLink="/rules" class="mobile-item text-xl font-medium">RULES</a>
                 <a routerLink="/rallies" class="mobile-item text-xl font-medium">RALLIES</a>
@@ -164,21 +158,6 @@ import { AuthService } from '../../services/auth.service';
             line-height: 100%;
         }
 
-        .menu-button {
-            display: flex;
-            position: fixed;
-            top: 30px;
-            right: 30px;
-            z-index: 1000;
-            background-color: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(5px);
-            border-radius: 0;
-        }
-
-        .menu-button mat-icon {
-            color: white;
-        }
-
         .mobile-menu {
             display: flex;
             position: fixed;
@@ -196,21 +175,6 @@ import { AuthService } from '../../services/auth.service';
 
         .mobile-menu.show-menu {
             right: 0;
-        }
-
-        .mobile-header {
-            position: absolute;
-            top: 30px;
-            right: 30px;
-        }
-
-        .close-button {
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 0;
-        }
-
-        .close-button mat-icon {
-            color: white;
         }
 
         .mobile-item {
@@ -234,11 +198,7 @@ import { AuthService } from '../../services/auth.service';
                 display: flex;
             }
 
-            .menu-button {
-                display: none;
-            }
-
-            .mobile-menu {
+            app-menu-button {
                 display: none;
             }
         }
@@ -248,32 +208,7 @@ import { AuthService } from '../../services/auth.service';
                 background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
                     url('/assets/homeBackgroundAlternative.webp');
             }
-
-            .tagline {
-                width: 80%;
-                padding: 0px 24px;
-            }
         }
-
-       @media (min-width: 1200px) {
-            .subTitle {
-                font-size: 3rem; 
-            } 
-       }
-
-          @media (min-width: 1200px) {
-            .subTitle {
-                font-size: 3.5rem; 
-            } 
-       }
-    
-        @media (min-width: 2000px) {
-            .subTitle {
-                width: 75%;
-                padding: 0px 6rem;
-                font-size: 5rem; 
-            } 
-       }
     `]
 })
 export class HomeComponent {
@@ -281,8 +216,8 @@ export class HomeComponent {
 
     constructor(public authService: AuthService) {}
 
-    toggleMenu() {
-        this.isMenuOpen = !this.isMenuOpen;
+    toggleMenu(isOpen: boolean) {
+        this.isMenuOpen = isOpen;
         if (this.isMenuOpen) {
             document.body.style.overflow = 'hidden';
         } else {
