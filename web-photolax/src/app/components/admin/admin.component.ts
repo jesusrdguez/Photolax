@@ -83,7 +83,7 @@ import { MenuButtonComponent } from '../../shared/components/menu-button/menu-bu
             padding: 0;
             margin: 0;
             position: relative;
-            z-index: 9999;
+            z-index: 99;
             overflow: hidden;
         }
 
@@ -99,7 +99,7 @@ import { MenuButtonComponent } from '../../shared/components/menu-button/menu-bu
             position: absolute;
             top: -50%;
             left: -50%;
-            z-index: 9999;
+            z-index: 99;
         }
 
         @keyframes noise-animation {
@@ -308,7 +308,7 @@ import { MenuButtonComponent } from '../../shared/components/menu-button/menu-bu
                 display: none;
             }
 
-            app-menu-button {
+            .mobile-menu {
                 display: none;
             }
         }
