@@ -8,17 +8,20 @@ import { ToastrService } from 'ngx-toastr';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 
+import { MenuButtonComponent } from 'src/app/shared/components/menu-button/menu-button.component';
+
 @Component({
     selector: 'app-login',
     standalone: true,
     imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        MaterialModule,
-        RouterModule,
-        MatIconModule,
-        MatButtonModule
-    ],
+    CommonModule,
+    ReactiveFormsModule,
+    MaterialModule,
+    RouterModule,
+    MatIconModule,
+    MatButtonModule,
+    MenuButtonComponent
+],
     template: `
         <div class="noise-overlay">
             <div class="page-container">
@@ -29,16 +32,9 @@ import { MatButtonModule } from '@angular/material/button';
                     <a routerLink="/register" class="header-item">REGISTER</a>
                 </div>
 
-                <button mat-icon-button class="menu-button" (click)="toggleMenu()">
-                    <mat-icon>menu</mat-icon>
-                </button>
+                <app-menu-button (menuToggled)="toggleMenu($event)"></app-menu-button>
 
                 <div class="mobile-menu" [class.show-menu]="isMenuOpen">
-                    <div class="mobile-header">
-                        <button mat-icon-button class="close-button" (click)="toggleMenu()">
-                            <mat-icon>close</mat-icon>
-                        </button>
-                    </div>
                     <a routerLink="/" class="mobile-item text-xl font-medium">HOME</a>
                     <a routerLink="/rules" class="mobile-item text-xl font-medium">RULES</a>
                     <a routerLink="/rallies" class="mobile-item text-xl font-medium">RALLIES</a>
@@ -367,8 +363,8 @@ export class LoginComponent {
         });
     }
 
-    toggleMenu() {
-        this.isMenuOpen = !this.isMenuOpen;
+    toggleMenu(event: boolean) {
+        this.isMenuOpen = event;
         if (this.isMenuOpen) {
             document.body.style.overflow = 'hidden';
         } else {

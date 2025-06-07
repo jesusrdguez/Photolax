@@ -8,6 +8,9 @@ import { ToastrService } from 'ngx-toastr';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 
+import { MenuButtonComponent } from 'src/app/shared/components/menu-button/menu-button.component';
+import { every } from 'rxjs';
+
 @Component({
     selector: 'app-register',
     standalone: true,
@@ -17,7 +20,8 @@ import { MatButtonModule } from '@angular/material/button';
         MaterialModule,
         RouterModule,
         MatIconModule,
-        MatButtonModule
+        MatButtonModule,
+        MenuButtonComponent
     ],
     template: `
     <div class="noise-overlay">
@@ -29,16 +33,9 @@ import { MatButtonModule } from '@angular/material/button';
                 <a routerLink="/login" class="header-item">LOGIN</a>
             </div>
 
-            <button mat-icon-button class="menu-button" (click)="toggleMenu()">
-                <mat-icon>menu</mat-icon>
-            </button>
+            <app-menu-button (menuToggled)="toggleMenu($event)"></app-menu-button>
 
             <div class="mobile-menu" [class.show-menu]="isMenuOpen">
-                <div class="mobile-header">
-                    <button mat-icon-button class="close-button" (click)="toggleMenu()">
-                        <mat-icon>close</mat-icon>
-                    </button>
-                </div>
                 <a routerLink="/" class="mobile-item text-xl font-medium">HOME</a>
                 <a routerLink="/rules" class="mobile-item text-xl font-medium">RULES</a>
                 <a routerLink="/rallies" class="mobile-item text-xl font-medium">RALLIES</a>
@@ -392,8 +389,8 @@ export class RegisterComponent {
         });
     }
 
-    toggleMenu() {
-        this.isMenuOpen = !this.isMenuOpen;
+    toggleMenu(event: boolean) {
+        this.isMenuOpen = event;
         if (this.isMenuOpen) {
             document.body.style.overflow = 'hidden';
         } else {
