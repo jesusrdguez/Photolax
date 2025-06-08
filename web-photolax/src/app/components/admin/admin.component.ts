@@ -311,6 +311,10 @@ import { MenuButtonComponent } from '../../shared/components/menu-button/menu-bu
             .mobile-menu {
                 display: none;
             }
+
+            app-menu-button {
+                display: none;
+            }
         }
     `]
 })

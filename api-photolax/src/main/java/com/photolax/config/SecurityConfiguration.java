@@ -28,6 +28,11 @@ public class SecurityConfiguration {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/v3/api-docs/**",
+                                "/swagger-ui/**",
+                                "/swagger-ui.html",
+                                "/api-docs/**").permitAll()
+                        
                         .requestMatchers("/api-photolax/auth/**").permitAll()
                         
                         .requestMatchers(HttpMethod.GET, "/contests/**").permitAll()
