@@ -58,7 +58,7 @@ import { MenuButtonComponent } from '../../shared/components/menu-button/menu-bu
           <div class="rallies-content-item notAvailable">
             <a routerLink="/contests/sunsets-rises/photos"></a>
             <img src="assets/japanase-streetfood.webp">
-            <p>JAPANASE STREET FOOD</p>
+            <p>JAPANESE STREET FOOD</p>
           </div>
         </div>
       </div>
